@@ -1,0 +1,1513 @@
+---
+title: "Gulf of Chiriqui benthic cover"
+author: "Ana M. Palacio-Castro"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    df_print: paged
+    theme: united
+    code_folding: "hide"
+    includes:
+       in_header: myheader.html
+bibliography: packages.bib
+nocite: '@*'
+---
+
+# Setup
+
+```{r Knitr_setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE,
+	fig.width=8, fig.height=8
+)
+```
+
+
+```{r libraries, include=FALSE}
+
+library(ggplot2)
+library(dplyr)
+library(scales)
+library(nlme)
+library(multcomp)
+library(emmeans)
+library(gridExtra)
+
+theme_set (theme_classic() + theme(panel.grid.major = element_blank(),
+                              panel.grid.minor = element_blank(), 
+                              axis.line = element_line(colour = "black"),
+                              legend.position="none",
+                              axis.text.x = element_text(angle = 90, vjust = 0.5),
+                              plot.title = element_text(size=12, face="bold"),
+                              #panel.border = element_rect(colour = "black", fill=NA, size=1)
+                              panel.border = element_blank()
+                              ))
+```
+
+# 1. Uva reef  
+
+## Import Coral cover data 
+
+(Wide format)
+
+```{r data}
+# Read data 
+  cover <- read.csv("CoverData/Uva_cover.csv", header=TRUE, sep = ",")
+  #summary(cover)
+  
+# Convert variables and factors to right format
+  # convert to numeric variables
+  cover$Pocillopora <- as.numeric(cover$Pocillopora) 
+  cover$Massive <- as.numeric(cover$Other_scleractinians)
+  cover$Millepora <- as.numeric(cover$Millepora) 
+  cover$Algae<- as.numeric(cover$Algae)
+  cover$Substrate<- as.numeric(cover$Substrate)
+  cover$YEAR <- as.numeric(cover$YEAR)
+  # convert to nominal factors
+  cover$Location <- as.factor(cover$Location) 
+
+# Dates   
+  # Note: all day from a month were converted to the 15th  
+  cover$Date<-as.Date(cover$Date, format =  "%Y-%m-%d")
+
+  #summary(cover)
+
+```
+
+## Check transects/sample units
+
+```{r, echo=FALSE}
+
+# Total datapoints per dataset  
+  Summary_DataSet<-cover %>%
+            group_by(Location, YEAR) %>%
+            dplyr::summarise(total.count=n()) 
+  Summary_DataSet
+    
+# Total time points per sampling unit (transect, quadrant, ect)    
+  cover$DataID<-paste(cover$Location, cover$Transect)
+  cover$DataID<-as.factor(cover$DataID)
+  Summary_Transect<-cover %>%
+            group_by(DataID) %>%
+            dplyr::summarise(total.count=n()) 
+  Summary_Transect
+  
+# Total data points per sampling unit, per time point (expected to be 1)     
+  Summary_Unit<-cover %>%
+            group_by(Date, DataID) %>%
+            dplyr::summarise(total.count=n()) 
+  #Summary_Unit
+  
+```
+
+# Explore data
+
+## *Pocillopora*
+
+* Pre-1982 Pocillopora cover in 4*5 = 77% manually added
+* Line = mean
+* Boxplots = median
+
+```{r, echo=FALSE}
+# Pocillopora mean, median, 
+
+Pocillopora_plot <- ggplot(cover, aes(x=YEAR, y=Pocillopora)) +
+  geom_boxplot(aes(group=YEAR), outlier.shape = NA) +
+  stat_boxplot(aes(group=YEAR), geom = 'errorbar')+
+  #geom_smooth(method = lm, se=FALSE, linetype = "dashed", colour="red")+
+  #geom_smooth(span = 0.2, se=T, colour="darkgray")+ 
+  stat_summary(fun.y=mean, geom="line") +
+  geom_point(aes(colour=Transect), alpha=0.3, shape=21) +
+  
+  scale_y_continuous("Pocillopora cover (%)", 
+                     limits = c(-2, 101), breaks = seq(0, 100, by=20),
+                     expand = c(0,0.1))+
+  scale_x_continuous("", limits = c(1979, 2019),
+                     breaks = seq(1980, 2018, by=2), expand = c(0,0))+
+  facet_grid(Location~., scales="free")+
+  ggtitle("Pocillopora")+
+  
+  annotate("rect", xmin = 1982, xmax = 1983, ymin = 0, ymax = 80,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 1997, xmax = 1998, ymin = 0, ymax = 80,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 2015, xmax = 2016, ymin = 0, ymax = 80,  alpha = .2, fill="red")
+Pocillopora_plot
+
+```
+
+
+## Non-Pocillopora scleractinians (Uva)
+
+* Line = mean
+* Boxplots = median
+
+```{r, echo=FALSE}
+Other_plot <- ggplot(cover, aes(x=YEAR, y=Other_scleractinians)) +
+  #geom_smooth(method = lm, se=FALSE, linetype = "dashed", colour="red")+
+  #geom_smooth(span = 0.2, se=T, colour="darkgray")+ 
+  geom_boxplot(aes(group=YEAR), outlier.shape = NA) +
+  stat_boxplot(aes(group=YEAR), geom = 'errorbar')+
+  stat_summary(fun.y=mean, geom="line") +
+  geom_point(aes(colour=Transect), alpha=0.3, shape=21)+
+  scale_y_continuous("Other scleractinians cover (%)"
+                     #, 
+                     #breaks = seq(0, 70, by=5), expand = c(0,0)
+                     )+
+  scale_x_continuous("", limits = c(1979, 2019),
+                     breaks = seq(1980, 2018, by=2), expand = c(0,0))+
+ 
+  annotate("rect", xmin = 1982, xmax = 1983, 
+           ymin = 0, ymax = 14,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = 1997, xmax = 1998, 
+           ymin = 0, ymax = 14,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = 2015, xmax = 2016, 
+           ymin = 0, ymax = 14,  alpha = .2, fill="gray")
+Other_plot+facet_grid(Location~., scale= "free_y" )
+```
+
+## *Millepora* (Uva)
+
+* *Millepora* sp. (individual transects) 
+
+```{r, echo=FALSE}
+Millepora.data<-subset(cover, Location !="4x5")
+Millepora.data<-subset(Millepora.data, Location !="Canal de Afuera-Reef")
+
+Millepora_plot <- ggplot(Millepora.data, aes(x=Date, y=Millepora)) +
+  geom_point(aes(colour=Transect, shape=Transect))+ 
+  #geom_smooth(method = lm, se=FALSE, linetype = "dashed", colour="red")+
+  #geom_smooth(span = 0.2, se=T, colour="darkgray")+ 
+  
+  #geom_boxplot(aes(group=YR), outlier.shape = NA) +
+  #stat_boxplot(aes(group=YR), geom = 'errorbar')+
+  geom_line(aes(colour=Transect))+
+  geom_point(aes(colour=Transect, shape=Transect))+
+  
+  #geom_point(aes(colour=Thermal_regime), alpha=0.5) + ylim(0,79) +
+  scale_y_continuous("Millepora cover (%)", expand = c(0.02,0.02))+
+  scale_x_date ("", limits = c(as.Date("1979-10-15"), as.Date("2019-06-01")),
+                       breaks = "2 year" , 
+                    labels = date_format("%Y"), 
+                    expand = c(0,0))+
+ 
+  annotate("rect", xmin = as.Date("1983-01-01"), xmax = as.Date("1983-12-31"), 
+         ymin = 0, ymax = 10,  alpha = .2, fill="red")+
+  annotate("rect", xmin = as.Date("1997-06-15"), xmax = as.Date("1998-08-15"), 
+          ymin = 0, ymax = 10,  alpha = .2, fill="red")+
+  annotate("rect", xmin = as.Date("2015-05-15"), xmax = as.Date("2016-05-15"),
+         ymin = 0, ymax = 10,  alpha = .2, fill="red")+
+  ggtitle("Millepora")+
+  theme(legend.position="bottom")
+
+Millepora_plot+facet_grid(Location~., scales = "free_y")
+```
+
+# Data analysis (Aggregated data)
+
+## Aggregate data (*Pocillopora*)
+
+* Hierarchically aggregate by date and location
+
+```{r}
+# Aggregate by Dataset - Month -Year
+  aggr.location <- aggregate(Pocillopora 
+                             ~YEAR+Month+Location,
+                             FUN=mean, data=cover)
+  
+  aggr.location$Year_F<-as.factor(aggr.location$YEAR)
+  aggr.location$Date<-paste(aggr.location$YEAR, aggr.location$Month, "15", sep = "-")
+  aggr.location$Date<-as.Date(aggr.location$Date, format = "%Y-%b-%d")
+  str(aggr.location)
+  
+  #write.csv(aggr.location, 
+   #       "Outputs/Pocillopora_mean_by_dataset.csv",
+   #       row.names = F)
+```
+
+
+## Stats *Pocillopora* for conceptual model (pooled datasets)
+
+```{r, echo=FALSE}
+
+# Aggregate by Month -Year  
+  aggr.DataSet <- aggregate(Pocillopora 
+                             ~Month+YEAR,
+                             FUN=mean,
+                          data=aggr.location)
+
+# Aggregate by Year
+  aggr.DataSet2 <- aggregate(Pocillopora 
+                               ~YEAR,
+                               FUN=median, 
+                            data=aggr.location)
+  
+  aggr.DataSet3 <- aggregate(Pocillopora 
+                               ~YEAR,
+                               FUN=mean, 
+                            data=aggr.location)
+  
+  aggr.DataSet4 <- aggregate(Pocillopora 
+                               ~YEAR,
+                               FUN=sd, 
+                            data=aggr.location)
+    
+  PocilloporaStats<-cbind(aggr.DataSet2, aggr.DataSet3[,-1], aggr.DataSet4[,-1])
+  colnames(PocilloporaStats)<-c("Year", "Median", "Mean", "SD")
+  PocilloporaStats
+
+  #write.csv(PocilloporaStats, "Outputs/Pocillopora_mean_Uva.csv", row.names = F) 
+
+```
+
+
+
+### Pocillopora (model 1)
+
+This model includes aggregated data from Chiriqui
+
+* Aggregated by location (Dataset)
+* YEAR is a continuous variable
+* Location (Dataset) as a random factor 
+
+ * Model is significant, but ignores high cover pre-1982
+
+* Data does not look normally distributed, which is ok, since the coral cover cannot be linear (Year as continuous), unless pre-1982 is removed? 
+
+
+** Do I need to change the intercept options?**
+
+```{r, fig.show='hold', out.width="50%", fig.height = 3.8, fig.width = 4.5}
+# # All years 1980_2018 
+#   model1 <- lme(
+#     Pocillopora ~ -1 + YEAR, random = ~1|Location, data=aggr.location)
+#   summary(model1)
+#   anova(model1)
+#   
+#   plot(ranef(model1))    # Symmetrical scatter effects around zero?
+#   plot(model1)           # plot residuals vs fitted
+#   resnorm1 <- resid(model1)
+#   hist(resnorm1, xlab = "Residuals", main = "") # are residuals normally distributed?
+#   coef.m1 <- as.data.frame(coef(summary(model1)))    # Coefficients of the model
+#   
+#   plot(model1, resid(., type = "p") ~ fitted(.) | Location, abline = 0)
+#   plot(model1, Pocillopora ~ fitted(.), abline = c(0,1))
+
+#-----
+  model1 <- lme(
+  Pocillopora ~ YEAR, random = ~1|Location, data=aggr.location)
+  summary(model1)
+  anova(model1)
+  
+  plot(ranef(model1))    # Symmetrical scatter effects around zero?
+  plot(model1)           # plot residuals vs fitted
+  resnorm1 <- resid(model1)
+  hist(resnorm1, xlab = "Residuals", main = "") # are residuals normally distributed?
+  coef.m1 <- as.data.frame(coef(summary(model1)))    # Coefficients of the model
+  
+  plot(model1, resid(., type = "p") ~ fitted(.) | Location, abline = 0)
+  plot(model1, Pocillopora ~ fitted(.), abline = c(0,1))
+
+
+#-----
+  # library(lme4)
+  # model1 <- lmer(Pocillopora ~ YEAR + (1|Location) -1, data=aggr.location)
+  # summary(model1)
+  # anova(model1)
+  # 
+  # plot(ranef(model1))    # Symmetrical scatter effects around zero?
+  # plot(model1)           # plot residuals vs fitted
+  # resnorm1 <- resid(model1)
+  # hist(resnorm1, xlab = "Residuals", main = "") # are residuals normally distributed?
+  # coef.m1 <- as.data.frame(coef(summary(model1)))    # Coefficients of the model
+  # 
+  # plot(model1, resid(., type = "p") ~ fitted(.) | Location, abline = 0)
+  # plot(model1, Pocillopora ~ fitted(.), abline = c(0,1))
+
+```
+
+**Model 1 (data) plot vs (predicted values)**
+
+```{r}
+
+Model_1 <- ggplot(aggr.location, aes(x=YEAR, y=Pocillopora)) +
+  stat_boxplot(aes(group=YEAR), geom = 'errorbar')+
+  geom_point(aes(colour=Location))+
+  geom_smooth(method = lm, se=FALSE, linetype = "dashed", colour="red")+
+  geom_smooth(span = 0.3, se=T, colour="darkgray")+ 
+
+  scale_y_continuous("Pocillopora cover (%)",
+                      breaks = seq(0, 80, by=10),
+                     limits = c(-2, 80),
+                     expand = c(0,0))+
+  scale_x_continuous("", limits = c(1979, 2019),
+                     breaks = seq(1980, 2018, by=2),
+                     expand = c(0,0))+
+  annotate("rect", xmin = 1982, xmax = 1983, 
+           ymin = 0, ymax = 80,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = 1997, xmax = 1998, 
+           ymin = 0, ymax = 80,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = 2015, xmax = 2016,
+           ymin = 0, ymax = 80,  alpha = .2, fill="gray")+
+  theme(legend.position = c(0.25, 0.8))+
+  labs(title="Model 1 data")
+```
+
+**Model 1 **
+
+* Extract model 1 predicted values 
+
+```{r}
+# Create a new data frame for independent variables  
+NewData_1 <- expand.grid(Location=unique(aggr.location$Location),
+                        YEAR=seq((min(aggr.location$YEAR)), (max(aggr.location$YEAR))))
+pred_1 <- predict(model1 , newdata=NewData_1, level=0)
+#summary(pred_1) 
+#length(pred_1)
+```
+
+* Plot model predictions
+
+```{r}
+# Using model data 
+  Model1_plot <- ggplot(aggr.location, 
+                        aes(x=YEAR, y=Pocillopora, colour=Location)) +
+      geom_point(aes(fill=factor(Location)),
+                 shape = 21, colour = "black",
+                 size = 2, stroke = 0.3, alpha=0.5) +
+      
+  scale_y_continuous("Pocillopora cover (%)", 
+                     breaks = seq(0, 80, by=10), 
+                     limits = c(-2, 80),
+                     expand = c(0 ,0))+
+  scale_x_continuous("", limits = c(1979, 2018),
+                     breaks = seq(1980, 2018, by=2), 
+                     expand = c(0.02,0.02))+
+  
+  geom_line(data=NewData_1, 
+            aes(y=predict(model1, level=0, newdata=NewData_1)), size=2)+
+  labs(title="Model 1 prediction")
+
+```
+
+* Compare data and predictions
+
+```{r, fig.width=8, fig.height=4.5}
+ Model1_All<-grid.arrange(Model_1, Model1_plot, ncol=2)
+```
+
+
+### Pocillopora (model 1b: removing 1980 datapoints)
+
+This model includes aggregated data from Chiriqui
+
+* Aggregated by location (Dataset)
+* YEAR is a continuous variable (1980 data removed)
+* Location (Dataset) as a random factor 
+
+```{r}
+aggr.locationb<-filter(aggr.location, YEAR>1983)
+summary(aggr.locationb)
+```
+
+* Seems that removing the intercept is an issue... 
+
+```{r, fig.show='hold', out.width="50%", fig.height = 3.8, fig.width = 4.5}
+# All years 1980_2018 
+
+  model1b <- lme(
+    Pocillopora ~ YEAR, random = ~1| Location, data=aggr.locationb)
+  summary(model1b)
+  anova(model1b)
+  print(model1b)
+  
+  plot(ranef(model1b))    # Symmetrical scatter effects around zero?
+  plot(model1b)           # plot residuals vs fitted
+  resnorm1 <- resid(model1b)
+  hist(resnorm1, xlab = "Residuals", main = "") # are residuals normally distributed?
+  coef.m1 <- as.data.frame(coef(summary(model1b)))    # Coefficients of the model
+  
+  plot(model1b, resid(., type = "p") ~ fitted(.) | Location, abline = 0)
+  plot(model1b, Pocillopora ~ fitted(.), abline = c(0,1))
+  
+```
+
+**Model 1b (data) plot**
+
+```{r, echo=FALSE}
+
+Model_1b_data <- ggplot(aggr.locationb, aes(x=YEAR, y=Pocillopora)) +
+  stat_boxplot(aes(group=YEAR), geom = 'errorbar')+
+  geom_point(aes(colour=Location))+
+  geom_smooth(method = lm, se=FALSE, linetype = "dashed", colour="red")+
+  geom_smooth(span = 0.3, se=T, colour="darkgray")+ 
+  scale_y_continuous("Pocillopora cover (%)",
+                      breaks = seq(0, 80, by=10),
+                     limits = c(-2, 80),
+                     expand = c(0,0))+
+  scale_x_continuous("", limits = c(1979, 2019),
+                     breaks = seq(1980, 2018, by=2),
+                     expand = c(0,0))+
+  annotate("rect", xmin = 1982, xmax = 1983, 
+           ymin = 0, ymax = 80,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = 1997, xmax = 1998, 
+           ymin = 0, ymax = 80,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = 2015, xmax = 2016,
+           ymin = 0, ymax = 80,  alpha = .2, fill="gray")+
+  theme(legend.position = c(0.25, 0.8))+
+  labs(title="Model 1 data")
+```
+
+**Model 1b **
+
+* Extract model 1b predicted values 
+
+```{r}
+# Create a new data frame for independent variables  
+NewData_1b <- expand.grid(Location=unique(aggr.locationb$Location),
+                        YEAR=seq((min(aggr.locationb$YEAR)), (max(aggr.locationb$YEAR))))
+pred_1b <- predict(model1b , newdata=NewData_1b, level=0)
+#summary(pred_1) 
+#length(pred_1)
+```
+
+* Plot model predictions
+
+```{r}
+# Using model data 
+  Model1_plotb <- ggplot(aggr.locationb, 
+                        aes(x=YEAR, y=Pocillopora, colour=Location)) +
+      geom_point(aes(fill=factor(Location)),
+                 shape = 21, colour = "black",
+                 size = 2, stroke = 0.3, alpha=0.5) +
+      
+  scale_y_continuous("Pocillopora cover (%)", 
+                     breaks = seq(0, 80, by=10), 
+                     limits = c(-2, 80))+
+  scale_x_continuous("", limits = c(1979, 2019),
+                     breaks = seq(1980, 2018, by=2), 
+                     expand = c(0.0,0.0))+
+
+  geom_line(data=NewData_1b, 
+            aes(y=predict(model1b, level=0, newdata=NewData_1b)), size=2)+
+  labs(title="Model 1b prediction")
+
+```
+
+**Model 1b (data) plot vs (predicted values)**
+
+```{r, fig.width=8, fig.height=4.5}
+ Model1b_All<-grid.arrange(Model_1b_data, Model1_plotb, ncol=2)
+```
+
+
+### Pocillopora model 2 (+ multiple comparisons among years)
+
+This model includes data from Chiriqui
+
+* Aggregated by location 
+* Year is a factor
+* Location as a random factor 
+
+
+*Results:*
+
+* Model is significant 
+* Better normality
+
+```{r, fig.show='hold', out.width="50%", fig.height = 3.8, fig.width = 4.5}
+model2 <- lme(
+    Pocillopora ~ -1 + Year_F, random = ~1|Location, data=aggr.location)
+    summary(model2)
+    anova(model2)
+    
+  plot(ranef(model2))    # Symmetrical scatter effects around zero?
+  plot(model2)           # plot residuals vs fitted
+  resnorm1 <- resid(model2)
+  hist(resnorm1, xlab = "Residuals", main = "") # are residuals normally distributed?
+  coef.m1 <- as.data.frame(coef(summary(model2)))    # Coefficients of the model
+  
+  plot(model2, resid(., type = "p") ~ fitted(.) | Location, abline = 0)
+  plot(model2, Pocillopora ~ fitted(.), abline = c(0,1))
+```
+
+```{r}
+# Multicomp emmeans
+    Year_F.emm<-emmeans(model2, ~Year_F)
+    #contrast(Year_F.emm, "tukey")
+    year_groups<-cld(Year_F.emm, by=NULL) # compact-letter display
+    year_groups<-year_groups[order(year_groups$Year_F),] 
+    year_groups
+    write.csv(year_groups, "Outputs/UvaPocilloTukey.csv", row.names = F)
+```
+
+Multiple comparisons among years 
+
+* Too many lines!
+
+**Summary:** 
+
+* 1980 is different from 1983-2001) -> Coral cover lose after 1981-82 ENSO
+* "Recovery" by ~2002 (no differences between 1980 and 2002) uninterrupted until 2018 -> no significant cover loss in 1997-98 nor 2015-16
+
+```{r} 
+
+# Multicomp emmeans glht
+  m.comp_Pocillopora <- glht(model2, linfct = mcp(Year_F = "Tukey"))
+  Model2_multipcomp<-summary(m.comp_Pocillopora, test = univariate())
+  Model2_multipcomp
+```
+
+
+**Model 2 plot (data)**
+
+```{r}
+Model2_data <- ggplot(aggr.location, aes(x=YEAR, y=Pocillopora)) +
+  geom_boxplot(aes(group=YEAR), outlier.shape = NA) +
+  stat_boxplot(aes(group=YEAR), geom = 'errorbar')+
+ geom_point(aes(fill=factor(Location)),
+                 shape = 21, colour = "black",
+                 size = 2, stroke = 0.8, alpha=0.5) +
+  stat_summary(fun.y=mean, geom="line", colour="gray")+
+
+  scale_y_continuous("Pocillopora sp. cover (%)", limits = c(-2, 80),
+                     breaks = seq(-0, 80, by=10),
+                     expand = c(0,0))+
+  scale_x_continuous("", limits = c(1979, 2019),
+                     breaks = seq(1980, 2018, by=2), expand = c(0,0))+
+
+  annotate("rect", xmin = 1983, xmax = 1984, 
+           ymin = 0, ymax = 80,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = 1997.5, xmax = 1998.5, 
+           ymin = 0, ymax = 80,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = 2015.5, xmax = 2016.5,
+           ymin = 0, ymax = 80,  alpha = .2, fill="gray")+
+  #ggtitle("Model 2 data")+
+  theme(legend.position = c(0.25, 0.8))
+#ggsave(file="Outputs/Fig_1.svg", plot=Model2_data, width=7, height=4.5)
+```
+
+
+**Model 2 (predicted values)**
+
+* Extract model 2 predicted values 
+
+```{r}
+# Option 1
+
+  # Create a new data frame for independent variables  
+  NewData_2 <- expand.grid(Location=unique(aggr.location$Location),
+                          Year_F=unique(aggr.location$Year_F))
+  pred_2 <- predict(model2 , newdata=NewData_2, re.form= ~(1|Location),
+                    level=0)
+  #summary(pred_2) 
+  #length(pred_2)
+  
+  Predicted_Pocillopora<-cbind(NewData_2, pred_2)
+  #write.csv(Predicted_Pocillopora, "Model2Predictions.c")
+
+# Option 2
+  # Effect plot
+    Model2_plot<-plot(emmeans(model2, ~Year_F), comparisons = TRUE) +
+        coord_flip(xlim = NULL, ylim = NULL, expand = TRUE) + theme_bw() +
+        theme(axis.text.x = element_text(angle = 90)) + 
+        ggtitle("Model 2 preditions")
+
+```
+
+
+```{r, fig.width=8, fig.height=4.5}
+ 
+ Model2_All<-grid.arrange(Model2_data, Model2_plot, ncol=2)
+    
+```
+
+## Aggregate data (Massives)
+
+* Hierarchically aggregate by location
+
+```{r}
+# Aggregate by Location
+  aggr.location.mas <- aggregate(Massive ~ YEAR+Month+Location, 
+                        FUN=mean,data=cover)
+  aggr.location.mas$Year_F<-as.factor(aggr.location.mas$YEAR)
+```
+
+### Massives model (3) 
+
+This model includes aggregated data from Chiriqui
+
+* Aggregated by location
+* YEAR is a continuous variable
+* Location as a random factor 
+
+**Model is NOT significant**
+
+```{r, fig.show='hold', out.width="50%", fig.height = 3.8, fig.width = 4.5}
+# All years 1980_2018 
+  Model3 <- lme(
+    Massive ~ YEAR, random = ~1|Location, data=aggr.location.mas)
+  summary(Model3)
+  anova(Model3)
+  
+  #plot(ranef(Model3))    # Symmetrical scatter effects around zero?
+  #plot(Model3)           # plot residuals vs fitted
+  #resnorm1 <- resid(Model3)
+  #hist(resnorm1, xlab = "Residuals", main = "") # are residuals normally distributed?
+  #coef.m1 <- as.data.frame(coef(summary(Model3)))    # Coefficients of the model
+  
+  #plot(Model3, resid(., type = "p") ~ fitted(.) | Location, abline = 0)
+  #plot(Model3, Massive ~ fitted(.), abline = c(0,1))
+```
+
+Model 3 plot (Massives, non-significant)
+
+```{r,echo=FALSE}
+massives_plot <- ggplot(aggr.location.mas, aes(x=YEAR, y=Massive)) +
+  geom_point(aes(fill=factor(Location)),
+                 shape = 21, colour = "black",
+                 size = 2, stroke = 0.8, alpha=0.5) +
+  geom_smooth(method = lm, se=FALSE, linetype = "dashed", colour="red")+
+  geom_smooth(span = 0.3, se=T, colour="darkgray")+ 
+  scale_y_continuous("Other scleractinians (%)", limits = c(-0.5, 5), expand = c(0,0))+
+  scale_x_continuous("", limits = c(1979, 2019),
+                     breaks = seq(1979, 2019, by=2), expand = c(0,0))+
+  annotate("rect", xmin = 1982, xmax = 1983, 
+           ymin = 0, ymax = 5,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = 1997, xmax = 1998, 
+           ymin = 0, ymax = 5,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = 2015, xmax = 2016,
+           ymin = 0, ymax = 5,  alpha = .2, fill="gray")
+massives_plot + theme(legend.position = c(0.25, 0.8)) + 
+    ggtitle("Model 3 data")
+```
+
+### Massives model 4 (+ multiple comparisons between years)
+
+This model includes data from Chiriqui
+* aggregated by location 
+* Year is a factor
+* location as a random factor 
+
+* Model is significant* 
+
+```{r, fig.show='hold', out.width="50%", fig.height = 3.8, fig.width = 4.5}
+# All years 1980_2018 
+  Model4 <- lme(
+    Massive ~ -1 + Year_F, random = ~1|Location, data=aggr.location.mas)
+  #summary(Model4)
+  anova(Model4)
+  
+  plot(ranef(Model4))    # Symmetrical scatter effects around zero?
+  plot(Model4)           # plot residuals vs fitted
+  resnorm1 <- resid(Model4)
+  hist(resnorm1, xlab = "Residuals", main = "") # are residuals normally distributed?
+  coef.m1 <- as.data.frame(coef(summary(Model4)))    # Coefficients of the model
+  
+  plot(Model4, resid(., type = "p") ~ fitted(.) | Location, abline = 0)
+  plot(Model4, Massive ~ fitted(.), abline = c(0,1))
+  
+```
+
+```{r}
+  # Multicomp
+    Year_F.emm<-emmeans(Model4, ~Year_F)
+    #contrast(Year_F.emm, "tukey")
+    year_groups<-cld(Year_F.emm, by=NULL) # compact-letter display
+    year_groups<-year_groups[order(year_groups$Year_F),] 
+    year_groups
+    write.csv(year_groups, "Outputs/UvaNonPocilloTukey.csv", row.names = F)
+```
+
+Multiple comparisons among years 
+
+**Summary:** 
+
+
+* 1980 is different from every year (1983-2018) -> Non-Pocillopora coral cover loss after 1981-82 ENSO has not recovered to pre-1982 values
+* 1994-1997 artifact differences by incorporating Uva1m2?
+* 1997 marginally different from 1998 (p=0.06)
+* 1997 different from 1999-2018 (p<0.05), except 2004-2006 -> Massive coral cover lose after 1997-98 ENSO has not recovered to pre-1997 values
+
+```{r}
+m.comp_Massive <- glht(Model4, linfct = mcp(Year_F = "Tukey"))
+summary(m.comp_Massive, test = univariate())
+
+```
+
+Model 4 plot (Massives, significant)
+
+```{r, echo=FALSE}
+massives_plot <- ggplot(aggr.location.mas, aes(x=YEAR, y=Massive)) +
+  geom_boxplot(aes(group=YEAR), outlier.shape = NA) +
+  stat_boxplot(aes(group=YEAR), geom = 'errorbar')+
+   geom_point(aes(fill=factor(Location)),
+                 shape = 21, colour = "black",
+                 size = 2, stroke = 0.8, alpha=0.5) +
+  #geom_smooth(method = lm, se=FALSE, linetype = "dashed", colour="red")+
+  #geom_smooth(span = 0.3, se=T, colour="darkgray")+ 
+  scale_y_continuous("Other scleractinians (%)", limits = c(-0.5, 5), expand = c(0,0))+
+  scale_x_continuous("", limits = c(1979, 2019),
+                     breaks = seq(1979, 2019, by=2), expand = c(0,0))+
+  annotate("rect", xmin = 1982, xmax = 1983, 
+           ymin = 0, ymax = 5,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = 1997, xmax = 1998, 
+           ymin = 0, ymax = 5,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = 2015, xmax = 2016,
+           ymin = 0, ymax = 5,  alpha = .2, fill="gray")+
+  theme(legend.position = c(0.25, 0.8)) + 
+    ggtitle("Model 4 data")
+```
+
+
+```{r, echo=FALSE}
+# Effect plot
+  model4_plot<-plot(emmeans(Model4, ~Year_F), comparisons = TRUE) +
+      coord_flip(xlim = NULL, ylim = NULL, expand = TRUE) + theme_bw() +
+    theme(axis.text.x = element_text(angle = 90)) + 
+    ggtitle("Model 2 preditions")
+
+```
+
+```{r}
+ Model4_All<-grid.arrange(massives_plot, model4_plot, ncol=2)
+```
+
+
+
+## Aggregate data (Millepora)
+
+* Hierarchically aggregate by location
+
+```{r}
+# Aggregate by Location
+  aggr.location.mill <- aggregate(Millepora ~ YEAR+Month+Location, 
+                        FUN=mean,data=cover)
+  aggr.location.mill$Year_F<-as.factor(aggr.location.mill$YEAR)
+```
+
+### Millepora model (5) 
+
+This model includes aggregated data from Chiriqui
+
+* Aggregated by location 
+* YEAR is continuous
+* Location as a random factor 
+
+*Model is NOT significant*
+
+
+```{r, fig.show='hold', out.width="50%", fig.height = 3.8, fig.width = 4.5}
+# All years 1980_2018 
+  Model5 <- lme(Millepora ~ YEAR, random = ~1|Location, data=aggr.location.mill)
+  summary(Model5)
+  anova(Model5)
+  
+  #plot(ranef(Model5))    # Symmetrical scatter effects around zero?
+  #plot(Model5)           # plot residuals vs fitted
+  #resnorm1 <- resid(Model5)
+  #hist(resnorm1, xlab = "Residuals", main = "") # are residuals normally distributed?
+  #coef.m1 <- as.data.frame(coef(summary(Model5)))    # Coefficients of the model
+  
+  #plot(Model5, resid(., type = "p") ~ fitted(.) | Location, abline = 0)
+  #plot(Model5, Millepora ~ fitted(.), abline = c(0,1))
+```
+
+
+### Millepora model 6 (multiple comparisons between years)
+
+This model includes data from Chiriqui
+* aggregated by location 
+* Year is a factor
+* location as a random factor 
+
+```{r,  fig.show='hold', out.width="50%", fig.height = 3.8, fig.width = 4.5}
+# All years 1980_2018 
+  Model6 <- lme(
+    Millepora ~ -1 + Year_F, random = ~1|Location, data=aggr.location.mill)
+  #summary(Model6)
+  anova(Model6)
+
+```
+
+**Millepora plots (non-significant models)**
+
+```{r, echo=FALSE}
+
+Millepora_plot <- ggplot(aggr.location.mill, aes(x=YEAR, y=Millepora)) +
+  geom_boxplot(aes(group=YEAR), outlier.shape = NA) +
+  stat_boxplot(aes(group=YEAR), geom = 'errorbar')+
+  geom_point(aes(fill=factor(Location)),
+                 shape = 21, colour = "black",
+                 size = 2, stroke = 0.8, alpha=0.5) +
+  geom_smooth(method = lm, se=FALSE, linetype = "dashed", colour="red")+
+  geom_smooth(span = 0.3, se=T, colour="darkgray")+ 
+  scale_y_continuous("Millepora (%)", limits = c(-0.5, 15), expand = c(0,0))+
+  scale_x_continuous("", limits = c(1979, 2019),
+                     breaks = seq(1979, 2019, by=2), expand = c(0,0))+
+  annotate("rect", xmin = 1982, xmax = 1983, 
+           ymin = 0, ymax = 15,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 1997, xmax = 1998, 
+           ymin = 0, ymax = 15,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 2015, xmax = 2016,
+           ymin = 0, ymax = 15,  alpha = .2, fill="red")
+Millepora_plot + theme(legend.position = c(0.70, 0.8)) + 
+    ggtitle("Millepora data - All models are non-significant")
+```
+
+## Aggregate data (all Scleractinians)
+
+* Hierarchically aggregate by location
+
+```{r}
+# Aggregate by Location
+  aggr.location.scl <- aggregate(All_Corals ~ YEAR+Month+Location, 
+                        FUN=mean,data=cover)
+  aggr.location.scl$Year_F<-as.factor(aggr.location.scl$YEAR)
+```
+
+### All scleractinians (model 7) 
+
+This model includes aggregated data from Chiriqui
+
+* Aggregated by location 
+* YEAR as a continuous variable
+* Location as a random factor 
+
+
+**Model is significant**
+
+```{r, fig.show='hold', out.width="50%", fig.height = 3.8, fig.width = 4.5}
+# All years 1980_2018 
+  Model7 <- lme(All_Corals ~ YEAR, random = ~1|Location, data=aggr.location.scl)
+  summary(Model7)
+  anova(Model7)
+  
+  plot(ranef(Model7))    # Symmetrical scatter effects around zero?
+  plot(Model7)           # plot residuals vs fitted
+  resnorm1 <- resid(Model7)
+  hist(resnorm1, xlab = "Residuals", main = "") # are residuals normally distributed?
+  coef.m1 <- as.data.frame(coef(summary(Model7)))    # Coefficients of the model
+  
+  plot(Model7, resid(., type = "p") ~ fitted(.) | Location, abline = 0)
+  plot(Model7, All_Corals ~ fitted(.), abline = c(0,1))
+```
+
+Model 7 plot 
+
+```{r}
+Scleractinian_plot <- ggplot(aggr.location.scl, 
+                             aes(x=YEAR, y=All_Corals)) +
+  #geom_boxplot(aes(group=YEAR), outlier.shape = NA) +
+  #stat_boxplot(aes(group=YEAR), geom = 'errorbar')+
+  geom_point(aes(fill=factor(Location)),
+                 shape = 21, colour = "black",
+                 size = 2, stroke = 0.8, alpha=0.5) +
+  geom_smooth(method = lm, se=FALSE, linetype = "dashed", colour="red")+
+  geom_smooth(span = 0.3, se=T, colour="darkgray")+ 
+  scale_y_continuous("Coral cover (%)", limits = c(-0.5, 80), expand = c(0,0))+
+  scale_x_continuous("", limits = c(1979, 2019),
+                     breaks = seq(1979, 2019, by=2), expand = c(0,0))+
+  annotate("rect", xmin = 1982, xmax = 1983, 
+           ymin = 0, ymax = 80,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = 1997, xmax = 1998, 
+           ymin = 0, ymax = 80,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = 2015, xmax = 2016,
+           ymin = 0, ymax = 80,  alpha = .2, fill="gray")
+
+Scleractinian_plot + theme(legend.position = c(0.25, 0.8))
+```
+
+### Scleractinians model 8 (multiple comparisons between years)
+
+This model includes data from Chiriqui
+
+* Aggregated by location 
+* Year as a factor
+* Location as a random factor 
+
+```{r, fig.show='hold', out.width="50%", fig.height = 3.8, fig.width = 4.5}
+# All years 1980_2018 
+  Model8 <- lme(
+    All_Corals ~ -1 + Year_F, random = ~1|Location, data=aggr.location.scl)
+  #summary(Model8)
+  anova(Model8)
+  
+  plot(ranef(Model8))    # Symmetrical scatter effects around zero?
+  plot(Model8)           # plot residuals vs fitted
+  resnorm1 <- resid(Model8)
+  hist(resnorm1, xlab = "Residuals", main = "") # are residuals normally distributed?
+  coef.m1 <- as.data.frame(coef(summary(Model8)))    # Coefficients of the model
+  
+  plot(Model8, resid(., type = "p") ~ fitted(.) | Location, abline = 0)
+  plot(Model8, All_Corals ~ fitted(.), abline = c(0,1))
+  
+  # Multicomp
+    Year_F.emm_scle<-emmeans(Model8, ~Year_F)
+    #contrast(Year_F.emm, "tukey")
+    year_groups_Scle<-cld(Year_F.emm_scle, by=NULL) # compact-letter display
+    year_groups_Scle
+
+```
+
+
+Model 8 plot data 
+
+```{r, echo=FALSE}
+Scleractinian_plot <- ggplot(aggr.location.scl, 
+                             aes(x=YEAR, y=All_Corals)) +
+  geom_boxplot(aes(group=YEAR), outlier.shape = NA) +
+  stat_boxplot(aes(group=YEAR), geom = 'errorbar')+
+  geom_point(aes(colour=Location))+
+  scale_y_continuous("Coral cover (%)", limits = c(-0.5, 80), expand = c(0,0))+
+  scale_x_continuous("", limits = c(1979, 2019),
+                     breaks = seq(1979, 2019, by=2), expand = c(0,0))+
+  annotate("rect", xmin = 1982, xmax = 1983, 
+           ymin = 0, ymax = 80,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 1997, xmax = 1998, 
+           ymin = 0, ymax = 80,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 2015, xmax = 2016,
+           ymin = 0, ymax = 80,  alpha = .2, fill="red") +
+  theme(legend.position = c(0.25, 0.8)) +
+  ggtitle("All scleractinians")
+```
+
+Model 8 plot  
+
+```{r}
+# Effect plot
+  Model8_predictoin<-plot(emmeans(Model8, ~Year_F), comparisons = TRUE) +
+      coord_flip(xlim = NULL, ylim = NULL, expand = TRUE) + theme_bw()+
+    theme(axis.text.x = element_text(angle = 90)) + 
+    ggtitle("Model 8 predictions (All scleractinians)")
+```
+
+```{r, fig.width=8, fig.height=4.5}
+ 
+ Model8_All<-grid.arrange(Scleractinian_plot, Model8_predictoin, ncol=2)
+    
+```
+
+*Summary*: 
+
+* Pretty much same as only Pocillopora ... 
+
+* 1980 is different from 1983-2001 -> Coral cover lose after 1981-82 ENSO
+* "Recovery" by 2002 (no differences between 1980 and 2002) uninterrupted until 2018 -> no significant cover loss in 1997-98 nor 2015-16
+* 1997 not different from 1998, 2000, 2001, 2003 
+* 2015 not different from 2016, 2017, 2018 
+
+
+```{r}
+m.comp_sclera <- glht(Model8, linfct = mcp(Year_F = "Tukey"))
+summary(m.comp_sclera, test = univariate())
+
+```
+
+
+# 2. Stacked categories - Supplement? Uva Island
+
+Only plots, not stats
+
+### Explore 4x5
+
+```{r}
+Data4_5<-subset(cover, Location=="4x5")
+
+```
+
+
+```{r, echo=FALSE}
+Plot_45 <- ggplot(Data4_5, aes(x=Date),shape=1) +
+  geom_line(aes(y=(Millepora)), colour="yellow4") +
+  geom_point(aes(y=(Millepora)), colour="yellow4", shape=1) +
+ 
+  geom_line(aes(y=(Massive+Pocillopora)), colour="brown2") +
+  geom_point(aes(y=(Massive+Pocillopora)), colour="brown2", shape=1) +
+  
+  geom_line(aes(y=Pocillopora), colour="orange4") +
+  geom_point(aes(y=Pocillopora), colour="orange4", shape=1) +
+  #geom_area(aes(y=Pocillopora), color="orange4", alpha=0.6)+
+  
+  geom_line(aes(y=(100-Algae)), colour="green4") +
+  geom_point(aes(y=(100-Algae)), colour="green4", shape=1) +
+  #geom_area(aes(y=100-Algae), color="green4", alpha=0.7)+
+  
+  #geom_line(aes(y=(100-Substrate-Algae)), colour="black") +
+  
+  scale_y_continuous("Coral (%)", limits = c(-2, 101),
+                     breaks = seq(0, 100, by=20), expand = c(0,0),
+                     sec.axis = sec_axis(~ .-100, name="Algae (%)"))+
+  
+  scale_x_date("", date_breaks = "2 years",
+                date_labels = "%Y", 
+                limits = as.Date(c('1980-12-01','2018-12-01')),
+                expand = c(0,0))+
+  #scale_color_manual(values=my_colours) + labs(title="b")+
+  #annotate("text", x = 1983, y = 70, label = "*", size=8)+
+  annotate("rect", xmin = as.Date("1983-01-01"),
+                   xmax = as.Date("1983-12-31"),
+                   ymin = 0, ymax = 100,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = as.Date("1997-06-01"),
+                   xmax = as.Date("1998-08-15"),
+                  ymin = 0, ymax = 100,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = as.Date("2015-05-15"),
+                  xmax = as.Date("2016-04-15"),
+                  ymin = 0, ymax = 100,  alpha = .2, fill="gray")+
+  
+  #annotate("segment", x = as.Date("1982-01-15"), 
+  #                  xend = as.Date("1984-06-15"),
+  #                  y = 77, yend = 1, colour = "orange4", linetype=2)+
+  ggtitle("4x5 plot")
+
+Plot_45
+```
+
+### Explore Uva chains
+
+```{r}
+Data_Chain_Uva<-subset(cover, Location=="UvRf-Chains")
+```
+
+By transect
+
+```{r, echo=FALSE}
+Plot_UvaChiains <- ggplot(Data_Chain_Uva, aes(x=Date)) +
+  
+  geom_line(aes(y=(Millepora)), colour="yellow4") +
+  geom_point(aes(y=(Millepora)), colour="yellow4", shape=1) +
+  
+  geom_line(aes(y=(Massive+Pocillopora)), colour="brown2") +
+  geom_point(aes(y=(Massive+Pocillopora)), colour="brown2", shape=3) +
+  
+  geom_line(aes(y=Pocillopora), colour="orange4") +
+  geom_point(aes(y=Pocillopora), colour="orange4", shape=1) +
+  
+  
+  #geom_line(aes(y=(100-Substrate)), colour="black") +
+  geom_line(aes(y=(100-Algae)), colour="green4") +
+  geom_point(aes(y=(100-Algae)), colour="green4", shape=1) +
+  
+  #geom_line(aes(y=(100-Substrate-Algae)), colour="black") +
+  
+  scale_y_continuous("Cover (%)", 
+                     limits = c(-2, 101), breaks = seq(0, 100, by=20), expand = c(0,0))+
+  
+  scale_x_date("", date_breaks = "3 years",
+                date_labels = "%Y"
+             #limits = c(1979, 2019),
+              #expand = c(0,0)
+   )+
+  annotate("rect", xmin = as.Date("1983-01-01"),
+                   xmax = as.Date("1983-12-31"),
+                   ymin = 0, ymax = 100,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = as.Date("1997-06-01"),
+                   xmax = as.Date("1998-08-15"),
+                  ymin = 0, ymax = 100,  alpha = .2, fill="gray")+
+   annotate("rect", xmin = as.Date("2015-05-15"),
+                  xmax = as.Date("2016-04-15"),
+                  ymin = 0, ymax = 100,  alpha = .2, fill="gray")
+Plot_UvaChiains+facet_wrap(~Transect)
+```
+
+Mean Chains 
+
+```{r, echo=FALSE}
+Plot_UvaChains <- ggplot(Data_Chain_Uva, aes(x=Date)) +
+    stat_summary(aes(y=Millepora), 
+                 fun.y=mean, geom="line", colour="yellow4")+
+    stat_summary(aes(y=(Massive+Pocillopora)), 
+                 fun.y=mean, geom="line", colour="brown2")+
+    stat_summary(aes(y=(Pocillopora)), 
+                 fun.y=mean, geom="line", colour="orange4")+
+   stat_summary(aes(y=100-Algae), 
+                 fun.y=mean, geom="line", colour="green4")+
+
+    stat_summary(aes(y=Millepora), 
+                 fun.data="mean_cl_boot",geom = "errorbar", colour="yellow4")+
+    stat_summary(aes(y=(Massive+ Pocillopora)), 
+                 fun.data="mean_cl_boot",geom = "errorbar", colour="brown2")+
+    stat_summary(aes(y=(Pocillopora)), 
+                 fun.data="mean_cl_boot",geom = "errorbar", colour="orange4")+
+    stat_summary(aes(y=(y=100-Algae)), 
+                 fun.data="mean_cl_boot",geom = "errorbar", colour="green4")+
+
+  scale_y_continuous("Coral (%)", 
+                     limits = c(-2, 101),
+                     breaks = seq(0, 100, by=20), expand = c(0,0),
+                     sec.axis = sec_axis(~ .-100, name="Algae (%)"))+
+  scale_x_date("", date_breaks = "2 years",
+                  date_labels = "%Y", 
+                  limits = as.Date(c('1980-12-01','2018-12-01')),
+                  expand = c(0,0))+
+  
+  #scale_color_manual(values=my_colours) + labs(title="b")+
+  #annotate("text", x = 1983, y = 70, label = "*", size=8)+
+  annotate("rect", xmin = as.Date("1983-01-01"),
+                   xmax = as.Date("1983-12-31"),
+                   ymin = 0, ymax = 100,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = as.Date("1997-06-01"),
+                   xmax = as.Date("1998-08-15"),
+                  ymin = 0, ymax = 100,  alpha = .2, fill="gray")+
+   annotate("rect", xmin = as.Date("2015-05-15"),
+                  xmax = as.Date("2016-04-15"),
+                  ymin = 0, ymax = 100,  alpha = .2, fill="gray")+
+    ggtitle("Chains transects")
+Plot_UvaChains
+```
+
+### Uva_1m2
+
+```{r}
+Data_Uva12<-subset(cover, Location=="Uva_1m2")
+```
+
+By transect
+
+```{r, echo=FALSE}
+
+Plot_Uva1m2 <- ggplot(Data_Uva12, aes(x=Date)) +
+  
+  geom_line(aes(y=(Millepora)), colour="yellow4") +
+  geom_point(aes(y=(Millepora)), colour="yellow4", shape=1) +
+  
+  geom_line(aes(y=(Massive+Pocillopora)), colour="brown2") +
+  geom_point(aes(y=(Massive+Pocillopora)), colour="brown2", shape=3) +
+  
+  geom_line(aes(y=Pocillopora), colour="orange4") +
+  geom_point(aes(y=Massive+Pocillopora), colour="orange4", shape=1) +
+  
+  
+  #geom_line(aes(y=(100-Substrate)), colour="black") +
+  geom_line(aes(y=(100-Algae)), colour="green4") +
+  geom_point(aes(y=(100-Algae)), colour="green4", shape=1) +
+  
+  #geom_line(aes(y=(100-Substrate-Algae)), colour="black") +
+  
+  scale_y_continuous("Cover (%)", 
+                     limits = c(-2, 101), breaks = seq(0, 100, by=20), expand = c(0,0))+
+  
+  scale_x_date("", date_breaks = "2 years",
+                date_labels = "%Y"
+             #limits = c(1979, 2019),
+              #expand = c(0,0)
+   )+
+  #scale_color_manual(values=my_colours) + labs(title="b")+
+  #annotate("text", x = 1983, y = 70, label = "*", size=8)+
+ annotate("rect", xmin = as.Date("1983-01-01"),
+                   xmax = as.Date("1983-12-31"),
+                   ymin = 0, ymax = 100,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = as.Date("1997-06-01"),
+                   xmax = as.Date("1998-08-15"),
+                  ymin = 0, ymax = 100,  alpha = .2, fill="gray")+
+   annotate("rect", xmin = as.Date("2015-05-15"),
+                  xmax = as.Date("2016-04-15"),
+                  ymin = 0, ymax = 100,  alpha = .2, fill="gray")
+#Plot_UvaChiains+facet_grid(Transect~.)
+#Plot_UvaChiains+facet_grid(~Transect)
+Plot_Uva1m2+facet_wrap(~Transect)
+```
+
+Mean 1m2 
+
+```{r, echo=FALSE}
+Plot_Uva1m2 <- ggplot(Data_Uva12, aes(x=Date)) +
+   stat_summary(aes(y=Millepora), 
+                 fun.y=mean, geom="line", colour="yellow4")+ # Millepora alone
+   stat_summary(aes(y=(Massive+Pocillopora)), 
+                 fun.y=mean, geom="line", colour="brown2")+ # Massive + Pocillopora
+   stat_summary(aes(y=(Pocillopora)), 
+                 fun.y=mean, geom="line", colour="orange4")+ # Pocillopora alone
+   stat_summary(aes(y=100-Algae), 
+                 fun.y=mean, geom="line", colour="green4")+
+
+   stat_summary(aes(y=Millepora), 
+                 fun.data="mean_cl_boot",geom = "errorbar", colour="yellow4")+
+   stat_summary(aes(y=(Massive+Pocillopora)), 
+                 fun.data="mean_cl_boot",geom = "errorbar", colour="brown2")+
+   stat_summary(aes(y=(Pocillopora)), 
+                 fun.data="mean_cl_boot",geom = "errorbar", colour="orange4")+
+   stat_summary(aes(y=(y=100-Algae)), 
+                 fun.data="mean_cl_boot",geom = "errorbar", colour="green4")+
+
+  scale_y_continuous("Coral (%)", 
+                     limits = c(-2, 101),
+                     breaks = seq(0, 100, by=20), expand = c(0,0),
+                     sec.axis = sec_axis(~ .-100, name="Algae (%)"))+
+  scale_x_date("", date_breaks = "2 years",
+                date_labels = "%Y", 
+                limits = as.Date(c('1980-12-01','2018-12-01')),
+                expand = c(0,0))+
+  
+   annotate("rect", xmin = as.Date("1983-01-01"),
+                   xmax = as.Date("1983-12-31"),
+                   ymin = 0, ymax = 100,  alpha = .2, fill="gray")+
+   annotate("rect", xmin = as.Date("1997-06-01"),
+                   xmax = as.Date("1998-08-15"),
+                  ymin = 0, ymax = 100,  alpha = .2, fill="gray")+
+   annotate("rect", xmin = as.Date("2015-05-15"),
+                  xmax = as.Date("2016-04-15"),
+                  ymin = 0, ymax = 100,  alpha = .2, fill="gray")+
+   ggtitle("1m2 transects")
+Plot_Uva1m2
+```
+
+
+```{r}
+
+Cover<-grid.arrange(Plot_45 , Plot_UvaChains, Plot_Uva1m2, ncol=1)
+#ggsave(file="Outputs/Fig_S1.svg", plot=Cover, width=8, height=10)
+
+```
+
+# 3. Supplemantary datasets (Canal del Afuera and Secas)  
+
+## Import data 
+
+
+```{r Suppdata}
+# Read Canal de Afuera data (Pocillopora 2014-2018) 
+  Data_CanalAfuera <- read.csv("CoverData/CA_cover.csv", header=TRUE, sep = ",")
+  #summary(Data_CanalAfuera)
+  
+# Read Secas data (Massives 1980-2018) 
+  Data_Chain_SECAS <- read.csv("CoverData/Secas_cover.csv", header=TRUE, sep = ",")
+  #summary(Data_Chain_SECAS)
+  
+  # Read Secas + Uva data (Massives 1980-2018) 
+  Suplementary.masssives <- read.csv("CoverData/Massives_cover.csv", header=TRUE, sep = ",")
+  #summary(Suplementary.masssives)
+  
+  
+# Format color
+  FILL <-c("#C77CFF", "#F8766D", "#00BA38", "#619CFF")
+
+```
+
+## Pocillopora non-Uva (Canal de Afuera)
+
+```{r}
+
+Pocillopora_CA <- ggplot(Data_CanalAfuera, aes(x=YEAR, y=Pocillopora)) +
+  geom_boxplot(aes(group=YEAR), outlier.shape = NA) +
+  stat_boxplot(aes(group=YEAR), geom = 'errorbar')+
+  geom_point(colour="#A3A500", alpha=0.3)+
+  stat_summary(fun.y=mean, geom="line", colour="#A3A500") +
+  stat_summary(fun.y=mean, geom="point", shape=21, size=2, alpha=0.8, fill="#A3A500") +
+  
+  scale_y_continuous("Canal de afuera reef \n Pocillopora cover (%)", 
+                     limits = c(-2, 90), breaks = seq(0, 100, by=20),
+                     expand = c(0,0.1))+
+  scale_x_continuous("", limits = c(1979, 2019),
+                     breaks = seq(1980, 2018, by=2), expand = c(0,0))+
+  facet_grid(Location~., scales="free")+
+  
+  ggtitle("a.")+
+  
+  annotate("rect", xmin = 1982, xmax = 1983, ymin = 0, ymax = 80,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = 1997, xmax = 1998, ymin = 0, ymax = 80,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = 2015, xmax = 2016, ymin = 0, ymax = 80,  alpha = .2, fill="gray")+
+  facet_grid(Location~.)
+Pocillopora_CA 
+```
+ 
+* LMER model 
+
+```{r, fig.show='hold', out.width="50%", fig.height = 3.8, fig.width = 4.5}
+  Data_CanalAfuera$Year_F<-as.factor(Data_CanalAfuera$YEAR)
+
+  model_CA <- lme(
+    Pocillopora ~ -1 + Year_F, random = ~1|Transect, data=Data_CanalAfuera)
+  summary(model_CA)
+  anova(model_CA)
+  
+  
+  plot(ranef(model_CA))    # Symmetrical scatter effects around zero?
+  plot(model_CA)           # plot residuals vs fitted
+  resnorm1 <- resid(model_CA)
+  hist(resnorm1, xlab = "Residuals", main = "") # are residuals normally distributed?
+  coef.m1 <- as.data.frame(coef(summary(model_CA)))    # Coefficients of the model
+  
+  plot(model_CA, resid(., type = "p") ~ fitted(.) | Location, abline = 0)
+  plot(model_CA, Pocillopora ~ fitted(.), abline = c(0,1))
+  
+# Multicomp
+    Year_F.emm<-emmeans(model_CA, ~Year_F)
+    #contrast(Year_F.emm, "tukey")
+    year_groups<-cld(Year_F.emm, by=NULL) # compact-letter display
+    year_groups
+    #write.csv(year_groups, "Outputs/CanalPocilloTukey.csv", row.names = F)
+    
+# Effect plot
+  plot(emmeans(model_CA, ~Year_F), comparisons = TRUE) +
+      coord_flip(xlim = NULL, ylim = NULL, expand = TRUE) + theme_bw() +
+    theme(axis.text.x = element_text(angle = 90)) + 
+    ggtitle("Model CA preditions")
+```
+ 
+* Summary stats *Pocillopora* CA
+
+```{r, echo=FALSE}
+
+# Aggregate by Month -Year  
+  CA_Mean <- aggregate(Pocillopora 
+                             ~YEAR,
+                             FUN=mean,
+                          data=Data_CanalAfuera)
+
+# Aggregate by Year
+  CA_median <- aggregate(Pocillopora 
+                            ~YEAR,
+                             FUN=median, 
+                            data=Data_CanalAfuera)
+  
+  CA_SD <- aggregate(Pocillopora 
+                            ~YEAR,
+                            FUN=sd, 
+                            data=Data_CanalAfuera)
+    
+  PocilloporaCA<-cbind(CA_Mean, CA_median[,-1], CA_SD[,-1])
+  colnames(PocilloporaCA)<-c("Year", "Mean", "Median", "SD")
+  PocilloporaCA
+```
+
+## Massives Secas
+
+```{r}
+Massive_Secas <- ggplot(Data_Chain_SECAS, aes(x=YEAR, y=Massive)) +
+  geom_boxplot(aes(group=YEAR), outlier.shape = NA) +
+  stat_boxplot(aes(group=YEAR), geom = 'errorbar')+
+  #geom_smooth(method = lm, se=FALSE, linetype = "dashed", colour="red")+
+  #geom_smooth(span = 0.2, se=T, colour="darkgray")+ 
+  stat_summary(fun.y=mean, geom="line") +
+  geom_point(aes(fill=Transect), alpha=0.5, shape=21) +
+  
+  scale_y_continuous("Secas Island reef \n Non-Pocillopora scleractinians cover (%)", 
+                     limits = c(-2, 80), breaks = seq(0, 100, by=10),
+                     expand = c(0,0.1)
+                     )+
+  scale_x_continuous("", limits = c(1979, 2019),
+                     breaks = seq(1980, 2018, by=2)#, 
+                     #expand = c(0.1,0)
+                     )+
+  annotate("rect", xmin = 1982, xmax = 1983, ymin = 0, ymax = 70,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = 1997, xmax = 1998, ymin = 0, ymax = 70,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = 2015, xmax = 2016, ymin = 0, ymax = 70,  alpha = .2, fill="gray")+
+  #facet_grid(Location~., scales="free_y")
+  ggtitle("b.")
+Massive_Secas
+```
+
+* LMER model SECAS
+
+```{r, fig.show='hold', out.width="50%", fig.height = 3.8, fig.width = 4.5}
+  Data_Chain_SECAS$Year_F<-as.factor(Data_Chain_SECAS$YEAR)
+
+  model_Secas <- lme(
+    Massive ~ -1 + Year_F, random = ~1|Transect, data=Data_Chain_SECAS)
+  summary(model_Secas)
+  anova(model_Secas)
+  
+  
+  plot(ranef(model_Secas))    # Symmetrical scatter effects around zero?
+  plot(model_Secas)           # plot residuals vs fitted
+  resnorm1 <- resid(model_Secas)
+  hist(resnorm1, xlab = "Residuals", main = "") # are residuals normally distributed?
+  coef.m1 <- as.data.frame(coef(summary(model_Secas)))    # Coefficients of the model
+  
+  plot(model_Secas, resid(., type = "p") ~ fitted(.) | Location, abline = 0)
+  plot(model_Secas, Pocillopora ~ fitted(.), abline = c(0,1))
+  
+# Multicomp
+    Year_F.emm<-emmeans(model_Secas, ~Year_F)
+    #contrast(Year_F.emm, "tukey")
+    year_groups<-cld(Year_F.emm, by=NULL) # compact-letter display
+    year_groups 
+    #write.csv(year_groups, "Outputs/SecasNonPocilloTukey.csv", row.names = F)
+    
+# Effect plot
+  plot(emmeans(model_Secas, ~Year_F), comparisons = TRUE) +
+      coord_flip(xlim = NULL, ylim = NULL, expand = TRUE) + theme_bw() +
+    theme(axis.text.x = element_text(angle = 90)) + 
+    ggtitle("Model Secas preditions")
+```
+ 
+* Summary stats Massives Secas
+
+```{r, echo=FALSE}
+
+# Aggregate by Month -Year  
+  Secas_Mean <- aggregate(Massive 
+                             ~YEAR,
+                             FUN=mean,
+                          data=Data_Chain_SECAS)
+
+# Aggregate by Year
+  Secas_median <- aggregate(Massive 
+                            ~YEAR,
+                             FUN=median, 
+                            data=Data_Chain_SECAS)
+  
+  Secas_SD <- aggregate(Massive 
+                            ~YEAR,
+                            FUN=sd, 
+                            data=Data_Chain_SECAS)
+    
+  MAsivesSECAS<-cbind(Secas_Mean, Secas_median[,-1], Secas_SD[,-1])
+  colnames(MAsivesSECAS)<-c("Year", "Mean", "Median", "SD")
+  MAsivesSECAS
+```
+ 
+ 
+## Massives Uva+Secas 
+
+```{r, echo=FALSE}
+
+Suplementary.masssives$Location<-factor(Suplementary.masssives$Location, 
+                                        levels = c("Secas_Chains", "4x5", "Uva_1m2", "UvRf-Chains"))
+
+massives_plot <- ggplot(Suplementary.masssives, aes(x=YEAR, y=Massive)) +
+  geom_boxplot(aes(group=YEAR), outlier.shape = NA) +
+  stat_boxplot(aes(group=YEAR), geom = 'errorbar')+
+  geom_point(aes(colour=Location), alpha=0.2)+
+  scale_colour_manual(values = FILL)+
+  scale_fill_manual(values = FILL)+
+  stat_summary(fun.y=mean, geom="line", aes(colour=Location)) +
+  stat_summary(fun.y=mean, geom="point", aes(fill=Location), shape=21, size=2, alpha=0.8) +
+  scale_y_continuous("Non-Pocillopora (massive) \n scleractinians cover (%)")+
+   scale_x_continuous("", limits = c(1979, 2019),
+                     breaks = seq(1980, 2018, by=2), 
+                     expand = c(0,0))+
+  annotate("rect", xmin = 1982, xmax = 1983, 
+           ymin = 0, ymax = 15,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = 1997, xmax = 1998, 
+           ymin = 0, ymax = 15,  alpha = .2, fill="gray")+
+  annotate("rect", xmin = 2015, xmax = 2016,
+           ymin = 0, ymax = 15,  alpha = .2, fill="gray")+
+  theme(legend.position = c(0.25, 0.8)) + 
+  facet_grid(Site~., scales = "free_y")+
+  ggtitle("b.")
+massives_plot
+  
+```
+
+
+## Other Supplemetary figures cover
+
+```{r, echo=FALSE}
+
+Supp_cover<-grid.arrange(Pocillopora_CA, massives_plot, 
+             ncol = 1, nrow = 2, 
+             heights=c(1,2))
+
+#ggsave(file="Outputs/Figure_Supp_cover.svg", plot=Supp_cover, width=6, height=6)
+```
+ 
+
+# Packages used
+
+```{r, echo=FALSE}
+# Creates bibliography 
+# knitr::write_bib(c(.packages()), "packages.bib")
+```
