@@ -4,7 +4,7 @@
 
 ### Description:
 
-This repository complite and analyzes coral cover, bleaching and mortality data from 1980-2018.
+This repository compiles and analyzes coral cover, bleaching and mortality data from 1980-2018.
 
 </br>
 
