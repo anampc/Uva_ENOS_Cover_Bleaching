@@ -1,0 +1,759 @@
+---
+title: "Uva Island bleaching 2"
+author: "Ana M. Palacio-Castro"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    df_print: paged
+    theme: united
+    code_folding: "hide"
+bibliography: packages.bib
+nocite: '@*'
+---
+
+# Setup
+
+```{r Knitr_setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE,
+	fig.width=8, fig.height=8
+)
+```
+
+
+```{r libraries, include=FALSE}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(scales)
+library(nlme)
+library(multcomp)
+library(emmeans)
+library(gridExtra)
+library(lubridate)
+library(zoo)
+library(plotrix)
+library(sjPlot)
+library(jtools)
+library(aod)
+
+theme_set (theme_classic() + theme(panel.grid.major = element_blank(),
+                              panel.grid.minor = element_blank(), 
+                              axis.line = element_line(colour = "black"),
+                              legend.position="bottom",
+                              #axis.text.x = element_text(angle = 90, vjust = 0.5),
+                              plot.title = element_text(size=12, face="bold"),
+                              panel.border = element_rect(colour = "black", 
+                                                          fill=NA, size=0.5)))
+```
+
+# 1. Binary approach - UVA ISLAND
+
+## Data
+
+```{r}
+Counts1983_1997<-read.csv("BleachingData/Counts_1983_1997.csv", 
+                     header = T)
+# summary(Counts1983_1997)
+# sum(Counts1983_1997$Number)
+# sum(table(rep(1:nrow(Counts1983_1997), Counts1983_1997$Number)))
+
+Bi_1983_97 <- Counts1983_1997[rep(1:nrow(Counts1983_1997),
+                          Counts1983_1997$Number), 1:4]
+#nrow(Bi_1983_97)
+Bi_1983_97$Site<-NA
+
+Bi_2014_16<-read.csv("BleachingData/Counts_2014_2016.csv", 
+                     header = T)
+# nrow(Bi_2014_16)
+# summary(Bi_2014_16)
+
+Binomial_all.data<-rbind(Bi_1983_97, Bi_2014_16)
+summary(Binomial_all.data)
+
+#write.csv(Binomial.data, "BleachingData/Binomial_data.csv", row.names = F)
+```
+
+
+```{r}
+#Binomial.data<-read.csv("BleachingData/Binomial_data.csv", header = T)
+Species<-read.csv("BleachingData/Genus.csv", header = T)
+
+Binomial_all.data$Date<-as.Date(Binomial_all.data$Date,
+                                   format="%m/%d/%y")
+Binomial_all.data$Year<-year(Binomial_all.data$Date)
+Binomial_all.data$Year_F<-as.factor(Binomial_all.data$Year)
+
+Binomial_all.data<-merge(Binomial_all.data, Species, by="Species", all.x=TRUE)
+
+Binomial_all.data$Sensitivity<-factor(Binomial_all.data$Sensitivity,
+                              levels = c("Millepora",
+                                         "Other", "Pocillopora"))
+
+Binomial_all.data$Genus<-factor(Binomial_all.data$Genus,
+                              levels = c("Millepora", 
+                                         "Pavona", "Gardineroseris",
+                                         "Porites",
+                                         "Psammocora", "Pocillopora"))
+
+Binomial_all.data$Species[
+  Binomial_all.data$Species=="Psammocora superficialis"]<-"Psammocora stellata"
+  
+# Binomial.data$Species<-factor(Binomial.data$Species, levels = c(
+#   "Pocillopora elegans", "Pocillopora damicornis", "Pocillopora",
+#  "Millepora platyphylla", "Millepora intricata", "Porites panamensis",
+#  "Pavona chiriquiensis", "Pavona varians", "Pavona clavus",
+#   "Gardineroseris planulata",
+#  "Porites lobata", "Pavona gigantea",  "Psammocora stellata"))
+# 
+Binomial_all.data$Species<-factor(Binomial_all.data$Species, levels = c(
+ "Millepora platyphylla", "Millepora intricata", 
+ "Pavona chiriquiensis", "Pavona varians", "Pavona clavus", "Porites panamensis",
+ "Pocillopora elegans", "Pocillopora damicornis", "Pocillopora",
+  "Gardineroseris planulata",
+ "Porites lobata", "Pavona gigantea",  "Psammocora stellata"))
+
+Binomial_all.data$Affected[Binomial_all.data$Condition=="Healthy"]<-0
+Binomial_all.data$Affected[Binomial_all.data$Condition=="Affected"]<-1
+
+
+# filter data
+
+# Remove 2018 - Recovery
+  Binomial_all.data<-Binomial_all.data[Binomial_all.data$Year<2018,]
+
+# Remove - species with low replication <20 colonies by year
+  Binomial_all.data<-Binomial_all.data[Binomial_all.data$Species!="Pavona gigantea",]
+  Binomial_all.data<-Binomial_all.data[Binomial_all.data$Species!="Millepora platyphylla",]
+  Binomial_all.data<-Binomial_all.data[Binomial_all.data$Species!="Pavona chiriquiensis",]
+  Binomial_all.data<-Binomial_all.data[Binomial_all.data$Species!="Psammocora stellata",]
+  Binomial_all.data<-Binomial_all.data[Binomial_all.data$Species!="Porites panamensis",]
+
+# Remove - non-uva locations
+  Binomial.data<-Binomial_all.data[Binomial_all.data$Location=="Uva",]
+  Binomial.data<-(droplevels(Binomial.data))
+  summary(Binomial.data)
+  
+  Binomial_other<-Binomial_all.data[Binomial_all.data$Location!="Uva",]
+  Binomial_other<-(droplevels(Binomial_other))
+  summary(Binomial_other)
+```
+
+### Number of colonies sampled -Uva
+
+```{r, echo=FALSE}
+Cases_Year<-Binomial.data %>% count(Species,
+                                  Year,
+                                  sort = F)
+
+Cases_Year<-as.data.frame(Cases_Year %>%
+                   pivot_wider(names_from = Year,
+                   values_from = n))
+#write.csv(Cases_Year, "Outputs/Colonies_Year_Uva.csv")
+Cases_Year
+
+# kable(as.data.frame(Cases_Year, format = "html", caption="Colonies samples per year" ))
+```
+
+## Heat stress at the time of the surveys
+
+```{r}
+DHW_Daily<-read.csv("BleachingData/DHW_Daily_CA.csv", header = T)
+summary(DHW_Daily)
+Location_date<-expand.grid(Location=unique(Binomial.data$Location),
+                        Date=unique(Binomial.data$Date))
+Dates<-expand.grid(Date=unique(Binomial.data$Date))
+
+DHW_Daily$Date<-as.Date(DHW_Daily$Date)
+
+DHW_month<-DHW_Daily %>% 
+   group_by(Location) %>%
+   mutate(DHW_max=rollapplyr(NOAA_DHW_OI,list(-(180:0)),
+                  max,fill=NA, partial=FALSE)) %>% ungroup
+# 
+# DHW_month<-DHW_Daily %>% 
+#    group_by(Location) %>%
+#    mutate(DHW_max=rollapplyr(NOAA_DHW_OI,list(-(180:0)),
+#                   max,fill=NA, partial=FALSE)) %>% ungroup
+
+ DHW_month<-as.data.frame(DHW_month)
+ 
+ DHW_month<- DHW_month %>% dplyr::select("Location", "Date","NOAA_DHW_OI", "DHW_max")
+
+Location_date<-merge(Location_date, DHW_month, 
+                     by=c("Location", "Date"), all.x=TRUE)
+
+Binomial.data<-merge(Binomial.data, Location_date,
+                            by=c("Location", "Date"), all.x=TRUE)
+
+str(Binomial.data)
+
+```
+
+### DHW vs Max DHW in 6 months
+
+```{r}
+Dates1<-as.data.frame(
+      seq.Date(as.Date("1982-08-15"), as.Date("1983-12-15"), 
+               by = "day"))
+    colnames(Dates1)<-"Date"
+    Dates1$Event<- "E_1982-83"
+    Dates1<-merge(Dates1, DHW_month, by=c("Date"), all.x=TRUE )
+    
+    Dates2<-as.data.frame(
+      seq.Date(as.Date("1997-07-01"), as.Date("1998-07-31"),
+               by = "day"))
+    colnames(Dates2)<-"Date"
+    Dates2$Event<- "E_1997-1998"
+    Dates2<-merge(Dates2, DHW_month, by=c("Date"), all.x=TRUE )
+    
+    Dates3<-as.data.frame(
+      seq.Date(as.Date("2015-05-01"), as.Date("2016-07-31"), 
+               by = "day"))
+    colnames(Dates3)<-"Date"
+    Dates3$Event<- "E_2015-2016"
+    Dates3<-merge(Dates3, DHW_month, by=c("Date"), all.x=TRUE )
+        
+    # Date<-rbind(Dates1, Dates2, Dates3)
+    # Date$Date<-as.Date(Date$Date)
+```
+
+```{r}
+DHW_83 <- ggplot(Dates1[Dates1$Location=="Uva", ],
+                  aes(x=Date, y=NOAA_DHW_OI)) +
+  xlab(" ") + 
+  scale_y_continuous(name="DHW",
+                     limits = c(0,10.5))+
+  #facet_wrap(Event~., scales = "free_x")+
+  geom_vline(xintercept = c(Dates$Date), linetype=2)+
+  geom_line()+
+  geom_line(aes(x=Date, y=DHW_max), colour="red")
+#DHW_83 
+
+DHW_98 <- ggplot(Dates2[Dates2$Location=="Uva", ],
+                  aes(x=Date, y=NOAA_DHW_OI)) +
+  xlab(" ") + 
+  scale_y_continuous(name="DHW",
+                     limits = c(0,10.5))+
+  #facet_wrap(Event~., scales = "free_x")+
+  geom_vline(xintercept = c(Dates$Date), linetype=2)+
+  geom_line()+
+  geom_line(aes(x=Date, y=DHW_max), colour="red")
+#DHW_98 
+
+DHW_2016 <- ggplot(Dates3[Dates3$Location=="Uva", ],
+                  aes(x=Date, y=NOAA_DHW_OI)) +
+  xlab(" ") + 
+  scale_y_continuous(name="DHW",
+                     limits = c(0,10.5))+
+  #facet_wrap(Event~., scales = "free_x")+
+  geom_vline(xintercept = c(Dates$Date), linetype=2)+
+  geom_line()+
+  geom_line(aes(x=Date, y=DHW_max), colour="red")
+#DHW_2016 
+
+Max_DHW_plot<-grid.arrange(DHW_83, DHW_98, DHW_2016, ncol=3)
+
+#ggsave(file="Outputs/Max_DHW_plot.svg", plot=Max_DHW_plot, width=5, height=2)
+```
+
+
+## Plots by Year
+
+### Facet species
+
+```{r}
+binomial_smooth <- function(...) {
+  geom_smooth(method = "glm", method.args = list(family = "binomial"), ...)
+}
+
+Figure_Count<-ggplot(data=Binomial.data[Binomial.data$Year!=2014, ],
+      aes(x=Year_F, y=Affected)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))+
+  scale_x_discrete(name="Year")+
+  scale_y_continuous(name="Proportion of colonies affected",
+                     limits = c(0,1.1),
+                     breaks = c(0, 0.25, 0.5, .75, 1))+
+  geom_abline(slope = 0, intercept = 0.5, colour="grey")+
+  
+  # geom_jitter(aes(x=Year_F, y=Affected, 
+  #                      colour=as.factor(Year_F)),
+  #             show.legend = F,
+  #             alpha=0.2, size=0.5, width = 0.2, height = 0.1)+
+  stat_summary(aes(x=Year_F, y=Affected, fill=Year_F),
+               shape=21, alpha=0.9,
+               fun.data = "mean_cl_boot", colour = "black")+
+  
+  scale_colour_manual(values = c("#FDDBC7",  "#67A9CF", "#2166ac",
+                                 "#EF8A62", "#B2182B"))+
+  scale_fill_manual(values = c("#FDDBC7",  "#67A9CF", "#2166ac",
+                                 "#EF8A62", "#B2182B"))
+
+Figure_Count<-Figure_Count + facet_wrap(Species~., ncol = 4)
+Figure_Count
+Figure_Count + facet_wrap(Genus~.)
+Figure_Count + facet_wrap(Sensitivity~.)
+
+#ggsave(file="Outputs/Figure2d.svg", plot=Figure_Count, width=7, height=5.5)
+```
+
+### Facet years 
+
+```{r}
+Figure_Count_spp2<-ggplot(data=Binomial.data[
+  Binomial.data$Year!=2014,]) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5),
+        axis.title.x = element_blank(),
+        legend.title = element_blank())+
+  scale_x_discrete(name="Year")+
+  scale_y_continuous(name="Proportion of colonies affected",
+                     limits = c(0,1.1),
+                     breaks = c(0, 0.25, 0.5, .75, 1))+
+  
+   # geom_jitter(aes(x=Species, y=Affected, 
+   #                     colour=as.factor(Genus)), 
+   #            alpha=0.3, size=0.5, 
+   #            show.legend = F, width = 0.3, height = 0.1)+
+  stat_summary(aes(x=Species, y=Affected, fill=Genus),
+               shape=21,
+               fun.data = "mean_cl_boot", colour = "black")+
+  geom_abline(slope = 0, intercept = 0.5, colour="grey")+ facet_grid(~Year_F)
+Figure_Count_spp2 
+
+#ggsave(file="Outputs/Figure_2c.svg", plot=Figure_Count_spp2, width=8, height=6.5)
+
+# By sensitivity
+Figure_Count_spp2<-ggplot(data=Binomial.data[
+  Binomial.data$Year!=2014, ]) +
+    theme(axis.title.x = element_blank(),
+        legend.title = element_blank())+
+  #theme(axis.text.x = element_text(angle = 90, vjust = 0.5))+
+  scale_x_discrete(name="Year")+
+  scale_y_continuous(name="Proportion of colonies affected",
+                     limits = c(0,1.1),
+                     breaks = c(0, 0.25, 0.5, .75, 1))+
+  
+   # geom_jitter(aes(x=Year_F, y=Affected, 
+   #                     colour=as.factor(Sensitivity)), 
+   #            alpha=0.3, size=0.5, 
+   #            show.legend = F, width = 0.3, height = 0.1)+
+  stat_summary(aes(x=Year_F, y=Affected, fill=Sensitivity),
+               shape=21,
+               fun.data = "mean_cl_boot", colour = "black")
+Figure_Count_spp2
+```
+
+
+## Plots by DHW
+
+### Spp
+
+```{r}
+Summary_dhw_year<-Binomial.data %>%
+         group_by(Year) %>%
+         dplyr::summarise(meanDHW = mean(DHW_max),
+                          seDHW = std.error(DHW_max,na.rm),
+                          sdDHW = sd(DHW_max),
+                          minDHW = min(DHW_max),
+                          maxDHW = max(DHW_max))
+
+Summary_plot_spp<-Binomial.data %>%
+         group_by(Year, Species) %>%
+         dplyr::summarise(meanCon = mean(Affected),
+                          sdCon = sd(Affected),
+                          seCon = std.error(Affected,na.rm),
+                          minCon = min(Affected),
+                          maxCon = max(Affected),
+                          n())
+Summary_plot_spp<-merge(x = Summary_plot_spp,
+                       y= Summary_dhw_year,
+                    by = c("Year"),
+                                               all.x = TRUE)
+Summary_plot_spp
+```
+
+
+```{r}
+
+Figure_spp_dhw<-ggplot(Binomial.data,
+      aes(x=DHW_max, y=Affected)) +
+  theme(axis.text.x = element_text(angle = 0, vjust = 0.5))+
+  geom_abline(slope = 0, intercept = 0.5, colour="grey")+
+  
+  geom_jitter(data=Binomial.data,
+      aes(x=DHW_max, y=Affected, colour=Year_F), 
+              width = 0.3, height = 0.05,
+              alpha=0.3, size=0.5,
+              show.legend = F)+
+  stat_summary(aes(x=DHW_max, y=Affected, fill=Year_F),
+               shape=21, alpha=0.9,
+               fun.data = "mean_cl_boot", colour = "black")+
+  scale_x_continuous(name="Max DHW",
+                      #limits = c(0,8),
+                      breaks = c(0, 2, 4, 6, 8))+
+  scale_y_continuous(name="Proportion of colonies affected",
+                     limits = c(0, 1.1),
+                     breaks = c(0, 0.25, 0.5, .75, 1),
+                     expand = c(0.02, 0.02))+
+
+  geom_smooth(span=2, colour="grey", se=F)+
+  
+  scale_colour_manual(values = c("#FDDBC7",  "#67A9CF", "#2166ac", "black",
+                                  "#EF8A62", "#B2182B"))+
+  scale_fill_manual(values = c("#FDDBC7",  "#67A9CF", "#2166ac", "black",
+                                  "#EF8A62", "#B2182B"))+
+  facet_wrap(Species~.)
+
+Figure_spp_dhw
+
+#ggsave(file="Outputs/Figure_2014_DHW.svg", plot=Figure_spp_dhw, width=5.5, height=5.5)
+
+```
+
+```{r}
+Figure_spp_year<-ggplot(data=Summary_plot_spp[Summary_plot_spp$Year!=2014, ] ,
+      aes(x=as.factor(Year), y=meanCon)) +
+
+  # scale_x_continuous(name="Max DHW",
+  #                     #limits = c(0,8),
+  #                     breaks = c(0, 2, 4, 6, 8))+
+  scale_y_continuous(name="Proportion of colonies affected",
+                     #limits = c(0, 1.1),
+                     breaks = c(0, 0.25, 0.5, .75, 1),
+                     expand = c(0.1, 0.1))+
+  
+  # binomial_smooth(data=Binomial.data,
+  #     aes(x=DHW_max, y=Affected), colour="black", alpha=0.2)+
+
+  geom_jitter(data=Binomial.data[Binomial.data$Year!="2014",],
+      aes(x=as.factor(Year), y=Affected, colour=as.factor(Year)),
+              width = 0.3, height = 0.05,
+              alpha=0.3, size=0.5,
+              show.legend = F)+
+  
+  geom_point(shape=21, size=3, aes(fill=as.factor(Year)))+
+  geom_errorbar(aes(
+    ymax = meanCon + seCon, ymin = meanCon - seCon),
+    show.legend = F, width=0.1, colour="black" )+
+ 
+  
+   scale_colour_manual(values = c("#FDDBC7",  "#67A9CF", "#2166ac", 
+                                  "#EF8A62", "#B2182B"))+
+   scale_fill_manual(values = c("#FDDBC7",  "#67A9CF", "#2166ac", 
+                                  "#EF8A62", "#B2182B"))+
+  geom_abline(slope = 0, intercept = 0.5, colour="grey")+
+  facet_wrap(Species~., ncol=3)
+Figure_spp_year
+
+#ggsave(file="Outputs/Figure2e.svg", plot=Figure_spp_year, width=5.5, height=5.5)
+```
+
+```{r}
+# Figure_spp_dhw_H<-ggplot(data=Binomial.data, aes(x=Affected)) +
+#   scale_colour_manual(values = c("#FDDBC7",  "#67A9CF", "#2166ac",
+#                                  "#EF8A62", "#B2182B"))+
+#   scale_fill_manual(values = c("#FDDBC7",  "#67A9CF", "#2166ac",
+#                                  "#EF8A62", "#B2182B"))+
+#   geom_density(aes(fill=Year_F), alpha=0.5, position = "stack")+
+#   facet_wrap(~Species)
+# Figure_spp_dhw_H
+#   
+# Figure_spp_dhw_H<-ggplot(data=Binomial.data, aes(x=Affected)) +
+#   geom_density(aes(fill=Genus), alpha=0.5, position = "stack")+
+#   facet_wrap(~Year_F)
+# Figure_spp_dhw_H
+
+# Figure_spp_dhw_H<-ggplot(data=Binomial.data, aes(x=Affected)) +
+#   geom_density(aes(fill=Genus), alpha=0.5, position = "identity")+
+#   facet_wrap(~Year_F)
+# Figure_spp_dhw_H
+
+```
+
+
+### Genera
+
+```{r}
+Summary_plot_genus<-Binomial.data %>%
+         group_by(Year, Genus) %>%
+         dplyr::summarise(meanCon = mean(Affected),
+                          sdCon = sd(Affected),
+                          seCon = std.error(Affected,na.rm),
+                          minCon = min(Affected),
+                          maxCon = max(Affected))
+Summary_plot_genus<-merge(x = Summary_plot_genus,
+                       y= Summary_dhw_year,
+                    by = c("Year"),
+                                               all.x = TRUE)
+Summary_plot_genus
+```
+
+
+```{r}
+Figure_gen_dhw<-ggplot(data=Summary_plot_genus,
+      aes(x=meanDHW, y=meanCon)) +
+
+  theme_bw()+
+  theme(legend.position = "bottom",
+        panel.grid= element_blank())+
+  
+  scale_x_continuous(name="Max DHW",
+                      #limits = c(0,8),
+                      breaks = c(0, 2, 4, 6, 8))+
+  scale_y_continuous(name="Proportion of colonies affected",
+                     limits = c(0, 1),
+                     breaks = c(0, 0.25, 0.5, .75, 1))+
+  
+  # binomial_smooth(data=Binomial.data,
+  #     aes(x=DHW_max, y=Affected), colour="black", alpha=0.2)+
+  geom_smooth(span=2, colour="grey", se=F)+
+  
+  geom_jitter(data=Binomial.data,
+      aes(x=DHW_max, y=Affected, colour=Year_F), 
+              width = 0.3, height = 0.05,
+              alpha=0.3, size=0.5, show.legend = F)+
+  geom_errorbar(aes(
+    ymax = meanCon + seCon, ymin = meanCon - seCon, colour=as.factor(Year)),
+    show.legend = F)+
+  geom_point(shape=21, size=2, aes(fill=as.factor(Year)))+
+  
+  scale_colour_manual(values = c("#FDDBC7",  "#67A9CF", "#2166ac", "blue",
+                                 "#EF8A62", "#B2182B"))+
+  scale_fill_manual(values = c("#FDDBC7",  "#67A9CF", "#2166ac", "blue",
+                                 "#EF8A62", "#B2182B"))
+
+Figure_gen_dhw + facet_wrap(Genus~.)
+
+#ggsave(file="Outputs/Figure2c.svg", plot=Figure_2c, width=4, height=4)
+
+```
+
+### Sensitivity 
+
+```{r}
+Summary_plot_sen<-Binomial.data %>%
+         group_by(Year, Sensitivity) %>%
+         dplyr::summarise(meanCon = mean(Affected),
+                          sdCon = sd(Affected),
+                          seCon = std.error(Affected,na.rm),
+                          minCon = min(Affected),
+                          maxCon = max(Affected))
+Summary_plot_sen<-merge(x = Summary_plot_sen,
+                       y= Summary_dhw_year, by = c("Year"),
+                                               all.x = TRUE)
+Summary_plot_sen
+```
+
+
+```{r}
+Figure_sen_dhw<-ggplot(data=Summary_plot_sen,
+      aes(x=meanDHW, y=meanCon)) +
+
+  scale_x_continuous(name="Max DHW",
+                      #limits = c(0,8),
+                      breaks = c(0, 2, 4, 6, 8))+
+  scale_y_continuous(name="Proportion of colonies affected",
+                     #limits = c(-.01, 1.1),
+                     breaks = c(0, 0.25, 0.5, .75, 1))+
+  
+  # binomial_smooth(data=Binomial.data,
+  #     aes(x=DHW_max, y=Affected), colour="black", alpha=0.2)+
+  geom_smooth(span=2, colour="grey", se=F)+
+  
+  geom_jitter(data=Binomial.data,
+      aes(x=DHW_max, y=Affected, colour=Year_F), 
+              width = 0.3, height = 0.05,
+              alpha=0.3, size=0.5, show.legend = F)+
+  geom_errorbar(aes(
+    ymax = meanCon + seCon, ymin = meanCon - seCon))+
+  geom_point(shape=21, size=2, aes(fill=as.factor(Year)))+
+  
+   scale_colour_manual(values = c("#FDDBC7",  "#67A9CF", "#2166ac", "black",
+                                  "#EF8A62", "#B2182B"))+
+   scale_fill_manual(values = c("#FDDBC7",  "#67A9CF", "#2166ac", "black",
+                                  "#EF8A62", "#B2182B"))+
+  facet_wrap(Sensitivity~.)
+
+Figure_sen_dhw
+
+
+Figure_Count_spp2<-ggplot(data=Summary_plot_sen[Summary_plot_sen$Year!="2014",],
+                          aes(x=as.factor(Year), y=meanCon)) +
+    theme(axis.title.x = element_blank(),
+        legend.title = element_blank()
+        )+
+  #theme(axis.text.x = element_text(angle = 90, vjust = 0.5))+
+  scale_x_discrete(name="Year")+
+  scale_y_continuous(name="Proportion of colonies affected",
+                     limits = c(0,1.1),
+                     breaks = c(0, 0.25, 0.5, .75, 1))+
+  
+  geom_errorbar(aes(
+    ymax = meanCon + seCon, ymin = meanCon - seCon),
+     width = 0.1)+
+  
+  geom_point(shape=21, size=3, aes(fill=as.factor(Sensitivity)))+
+  
+  scale_colour_manual(values = 
+                        c("#D55E00", "#E69F00", "#009E73"))+
+  scale_fill_manual(values = 
+                      c("#D55E00", "#E69F00", "#009E73"))
+Figure_Count_spp2
+
+
+#ggsave(file="Outputs/Figure_2.svg", plot=Figure_Count_spp2, width=4, height=4)
+```
+
+## Binomial models 
+
+```{r}
+Binomial.data$Sensitivity<-factor(Binomial.data$Sensitivity,
+                              levels = c("Pocillopora", 
+                                         "Other","Millepora"))
+```
+
+
+```{r}
+# Remove 2014 data with no heat stress 
+
+Binomial.data_spp<-Binomial.data[Binomial.data$Year!="2014", ]
+```
+
+```{r}
+All_spp_m2<-glm(Affected ~ Year_F * Species, 
+                    family = binomial(link = "probit"),
+                    data = Binomial.data_spp)
+summary(All_spp_m2)$coefficients
+anova(All_spp_m2)
+summary(All_spp_m2)
+
+step(All_spp_m2)
+drop1(All_spp_m2, test="LRT")
+
+
+
+
+## Check for over/underdispersion in the model
+    E2 <- resid(All_spp_m2, type = "pearson")
+    N  <- nrow(Binomial.data_spp)
+    p  <- length(coef(All_spp_m2))   
+    sum(E2^2) / (N - p)
+
+All_emmc<-emmeans(All_spp_m2, ~Year_F, by="Species")
+    All_emmc<-multcomp::cld(All_emmc)
+All_emmc
+
+write.csv(All_emmc, "Outputs/Species_comparissions.csv", row.names = F)
+
+All_emmc_1<-emmeans(All_spp_m2, ~Species, by="Year_F")
+    All_emmc_1<-multcomp::cld(All_emmc_1)
+All_emmc_1
+
+write.csv(All_emmc_1, "Outputs/year_comparissions.csv", row.names = F)
+```
+
+# 2. Supplementary data - other locations
+
+## Data
+
+## Number of colonies sampled
+
+```{r, echo=FALSE}
+
+Binomial_other<-Binomial_other[Binomial_other$Location!="Jicaron-Jicarita", ]
+Binomial_other<-Binomial_other[Binomial_other$Location!="Silva de Afuera", ]
+Binomial_other<-Binomial_other[Binomial_other$Year!=2014, ]
+
+Cases_Year<-Binomial_other %>% count(Location, Species,
+                                  Year,
+                                  sort = F)
+
+Cases_Year<-as.data.frame(Cases_Year %>%
+                   pivot_wider(names_from = Year,
+                   values_from = n))
+#write.csv(Cases_Year, "Outputs/Colonies_Year_Uva.csv")
+Cases_Year
+
+# kable(as.data.frame(Cases_Year, format = "html", caption="Colonies samples per year" ))
+```
+
+# Plots by Year
+
+## Facet species
+
+```{r}
+binomial_smooth <- function(...) {
+  geom_smooth(method = "glm", method.args = list(family = "binomial"), ...)
+}
+
+Figure_Count<-ggplot(data=Binomial_other, 
+      aes(x=Year_F, y=Affected)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))+
+  scale_x_discrete(name="Year")+
+  scale_y_continuous(name="Proportion of colonies affected",
+                     limits = c(0,1.1),
+                     breaks = c(0, 0.25, 0.5, .75, 1))+
+    geom_abline(slope = 0, intercept = 0.5, colour="grey")+
+  
+   geom_jitter(aes(x=Year_F, y=Affected, 
+                        colour=as.factor(Location)),
+               show.legend = F,
+               alpha=0.5, size=0.8, width = 0.2, height = 0.1)+
+  stat_summary(aes(x=Year_F, y=Affected), alpha=0.9,
+               fun.data = "mean_cl_boot", colour = "black")
+  
+Figure_Count<-Figure_Count + facet_wrap(~Species, ncol=3)
+Figure_Count
+
+#ggsave(file="Outputs/Figure2_otherLocations.svg", plot=Figure_Count, width=5, height=5.5)
+```
+
+## Facet years 
+
+```{r}
+Figure_Count_spp2_o<-ggplot(data=Binomial_other) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5),
+        axis.title.x = element_blank(),
+        legend.title = element_blank())+
+  scale_x_discrete(name="Year")+
+  scale_y_continuous(name="Proportion of colonies affected",
+                     limits = c(0,1.1),
+                     breaks = c(0, 0.25, 0.5, .75, 1))+
+  
+   geom_jitter(aes(x=Species, y=Affected, 
+                        colour=as.factor(Genus)), 
+               alpha=0.3, size=0.5, 
+               show.legend = F, width = 0.3, height = 0.1)+
+  stat_summary(aes(x=Species, y=Affected, fill=Genus),
+               shape=21,
+               fun.data = "mean_cl_boot", colour = "black")+
+  geom_abline(slope = 0, intercept = 0.5, colour="grey")+ 
+  facet_grid(Location~Year_F)
+Figure_Count_spp2_o 
+
+#ggsave(file="Outputs/Figure_2c.svg", plot=Figure_Count_spp2, width=8, height=6.5)
+
+# HEFCTFCT
+Figure_Count_spp2_o<-ggplot(data=Binomial_other) +
+    theme(axis.title.x = element_blank(),
+        legend.title = element_blank())+
+  #theme(axis.text.x = element_text(angle = 90, vjust = 0.5))+
+  scale_x_discrete(name="Year")+
+  scale_y_continuous(name="Proportion of colonies affected",
+                     limits = c(0,1.1),
+                     breaks = c(0, 0.25, 0.5, .75, 1))+
+  
+   # geom_jitter(aes(x=Year_F, y=Affected, 
+   #                     colour=as.factor(Sensitivity)), 
+   #            alpha=0.3, size=0.5, 
+   #            show.legend = F, width = 0.3, height = 0.1)+
+  stat_summary(aes(x=Year_F, y=Affected, fill=Sensitivity),
+               shape=21,
+               fun.data = "mean_cl_boot", colour = "black")
+Figure_Count_spp2_o
+```
+
+
