@@ -634,22 +634,23 @@ step(All_spp_m2)
 drop1(All_spp_m2, test="LRT")
 
 
-
-
 ## Check for over/underdispersion in the model
     E2 <- resid(All_spp_m2, type = "pearson")
     N  <- nrow(Binomial.data_spp)
     p  <- length(coef(All_spp_m2))   
     sum(E2^2) / (N - p)
 
-All_emmc<-emmeans(All_spp_m2, ~Year_F, by="Species")
+All_emmc<-emmeans(All_spp_m2, ~Year_F, by="Species", trans = "log", type = "response")
     All_emmc<-multcomp::cld(All_emmc)
+    All_emmc<-All_emmc[order(All_emmc$Species, All_emmc$Year_F),]
 All_emmc
 
 write.csv(All_emmc, "Outputs/Species_comparissions.csv", row.names = F)
 
-All_emmc_1<-emmeans(All_spp_m2, ~Species, by="Year_F")
+
+All_emmc_1<-emmeans(All_spp_m2, ~Species, by="Year_F", trans = "log", type = "response")
     All_emmc_1<-multcomp::cld(All_emmc_1)
+    All_emmc_1<-All_emmc_1[order(All_emmc_1$Year_F, All_emmc_1$Species),]
 All_emmc_1
 
 write.csv(All_emmc_1, "Outputs/year_comparissions.csv", row.names = F)
@@ -679,6 +680,19 @@ Cases_Year
 
 # kable(as.data.frame(Cases_Year, format = "html", caption="Colonies samples per year" ))
 ```
+
+```{r}
+Summary_plot_Non_uva<-Binomial_other %>%
+         group_by(Year, Species) %>%
+         dplyr::summarise(meanCon = mean(Affected),
+                          sdCon = sd(Affected),
+                          seCon = std.error(Affected,na.rm),
+                          minCon = min(Affected),
+                          maxCon = max(Affected),
+                          n())
+Summary_plot_Non_uva
+```
+
 
 # Plots by Year
 

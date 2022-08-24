@@ -55,7 +55,7 @@ theme_set (theme_classic() + theme(panel.grid.major = element_blank(),
 
 ```{r data}
 # Read data 
-  cover <- read.csv("CoverData/Uva_cover.csv", header=TRUE, sep = ",")
+  cover <- read.csv("CoverData/Uva_cover_R1.csv", header=TRUE, sep = ",")
   #summary(cover)
   
 # Convert variables and factors to right format
@@ -74,6 +74,7 @@ theme_set (theme_classic() + theme(panel.grid.major = element_blank(),
   cover$Date<-as.Date(cover$Date, format =  "%Y-%m-%d")
 
   #summary(cover)
+  str(cover)
 
 ```
 
@@ -119,7 +120,7 @@ Pocillopora_plot <- ggplot(cover, aes(x=YEAR, y=Pocillopora)) +
   stat_boxplot(aes(group=YEAR), geom = 'errorbar')+
   #geom_smooth(method = lm, se=FALSE, linetype = "dashed", colour="red")+
   #geom_smooth(span = 0.2, se=T, colour="darkgray")+ 
-  stat_summary(fun.y=mean, geom="line") +
+  stat_summary(fun=mean, geom="line") +
   geom_point(aes(colour=Transect), alpha=0.3, shape=21) +
   
   scale_y_continuous("Pocillopora cover (%)", 
@@ -137,7 +138,6 @@ Pocillopora_plot
 
 ```
 
-
 ## Non-Pocillopora scleractinians (Uva)
 
 * Line = mean
@@ -149,7 +149,7 @@ Other_plot <- ggplot(cover, aes(x=YEAR, y=Other_scleractinians)) +
   #geom_smooth(span = 0.2, se=T, colour="darkgray")+ 
   geom_boxplot(aes(group=YEAR), outlier.shape = NA) +
   stat_boxplot(aes(group=YEAR), geom = 'errorbar')+
-  stat_summary(fun.y=mean, geom="line") +
+  stat_summary(fun=mean, geom="line") +
   geom_point(aes(colour=Transect), alpha=0.3, shape=21)+
   scale_y_continuous("Other scleractinians cover (%)"
                      #, 
@@ -169,7 +169,7 @@ Other_plot+facet_grid(Location~., scale= "free_y" )
 
 ## *Millepora* (Uva)
 
-* *Millepora* sp. (individual transects) 
+* *Millepora* spp. (individual transects) 
 
 ```{r, echo=FALSE}
 Millepora.data<-subset(cover, Location !="4x5")
@@ -257,13 +257,12 @@ Millepora_plot+facet_grid(Location~., scales = "free_y")
   colnames(PocilloporaStats)<-c("Year", "Median", "Mean", "SD")
   PocilloporaStats
 
-  #write.csv(PocilloporaStats, "Outputs/Pocillopora_mean_Uva.csv", row.names = F) 
+  #write.csv(PocilloporaStats, "Outputs/Pocillopora_mean_Uva.csv", row.names = F)
+  #write.csv(aggr.DataSet, "Outputs/Pocillopora_mean_MY_Uva.csv", row.names = F) 
 
 ```
 
-
-
-### Pocillopora (model 1)
+### Pocillopora (model 0)
 
 This model includes aggregated data from Chiriqui
 
@@ -280,58 +279,42 @@ This model includes aggregated data from Chiriqui
 
 ```{r, fig.show='hold', out.width="50%", fig.height = 3.8, fig.width = 4.5}
 # # All years 1980_2018 
-#   model1 <- lme(
+#   model0 <- lme(
 #     Pocillopora ~ -1 + YEAR, random = ~1|Location, data=aggr.location)
-#   summary(model1)
-#   anova(model1)
+#   summary(model0)
+#   anova(model0)
 #   
-#   plot(ranef(model1))    # Symmetrical scatter effects around zero?
-#   plot(model1)           # plot residuals vs fitted
-#   resnorm1 <- resid(model1)
+#   plot(ranef(model0))    # Symmetrical scatter effects around zero?
+#   plot(model0)           # plot residuals vs fitted
+#   resnorm1 <- resid(model0)
 #   hist(resnorm1, xlab = "Residuals", main = "") # are residuals normally distributed?
-#   coef.m1 <- as.data.frame(coef(summary(model1)))    # Coefficients of the model
+#   coef.m1 <- as.data.frame(coef(summary(model0)))    # Coefficients of the model
 #   
-#   plot(model1, resid(., type = "p") ~ fitted(.) | Location, abline = 0)
-#   plot(model1, Pocillopora ~ fitted(.), abline = c(0,1))
+#   plot(model0, resid(., type = "p") ~ fitted(.) | Location, abline = 0)
+#   plot(model0, Pocillopora ~ fitted(.), abline = c(0,1))
 
 #-----
-  model1 <- lme(
+  model0 <- lme(
   Pocillopora ~ YEAR, random = ~1|Location, data=aggr.location)
-  summary(model1)
-  anova(model1)
+  summary(model0)
+  anova(model0)
   
-  plot(ranef(model1))    # Symmetrical scatter effects around zero?
-  plot(model1)           # plot residuals vs fitted
-  resnorm1 <- resid(model1)
+  plot(ranef(model0))    # Symmetrical scatter effects around zero?
+  plot(model0)           # plot residuals vs fitted
+  resnorm1 <- resid(model0)
   hist(resnorm1, xlab = "Residuals", main = "") # are residuals normally distributed?
-  coef.m1 <- as.data.frame(coef(summary(model1)))    # Coefficients of the model
+  coef.m1 <- as.data.frame(coef(summary(model0)))    # Coefficients of the model
   
-  plot(model1, resid(., type = "p") ~ fitted(.) | Location, abline = 0)
-  plot(model1, Pocillopora ~ fitted(.), abline = c(0,1))
-
-
-#-----
-  # library(lme4)
-  # model1 <- lmer(Pocillopora ~ YEAR + (1|Location) -1, data=aggr.location)
-  # summary(model1)
-  # anova(model1)
-  # 
-  # plot(ranef(model1))    # Symmetrical scatter effects around zero?
-  # plot(model1)           # plot residuals vs fitted
-  # resnorm1 <- resid(model1)
-  # hist(resnorm1, xlab = "Residuals", main = "") # are residuals normally distributed?
-  # coef.m1 <- as.data.frame(coef(summary(model1)))    # Coefficients of the model
-  # 
-  # plot(model1, resid(., type = "p") ~ fitted(.) | Location, abline = 0)
-  # plot(model1, Pocillopora ~ fitted(.), abline = c(0,1))
+  plot(model0, resid(., type = "p") ~ fitted(.) | Location, abline = 0)
+  plot(model0, Pocillopora ~ fitted(.), abline = c(0,1))
 
 ```
 
-**Model 1 (data) plot vs (predicted values)**
+**Model 0 (data) plot vs (predicted values)**
 
 ```{r}
 
-Model_1 <- ggplot(aggr.location, aes(x=YEAR, y=Pocillopora)) +
+Model_0 <- ggplot(aggr.location, aes(x=YEAR, y=Pocillopora)) +
   stat_boxplot(aes(group=YEAR), geom = 'errorbar')+
   geom_point(aes(colour=Location))+
   geom_smooth(method = lm, se=FALSE, linetype = "dashed", colour="red")+
@@ -354,24 +337,24 @@ Model_1 <- ggplot(aggr.location, aes(x=YEAR, y=Pocillopora)) +
   labs(title="Model 1 data")
 ```
 
-**Model 1 **
+**Model 0 **
 
 * Extract model 1 predicted values 
 
 ```{r}
 # Create a new data frame for independent variables  
-NewData_1 <- expand.grid(Location=unique(aggr.location$Location),
+NewData_0 <- expand.grid(Location=unique(aggr.location$Location),
                         YEAR=seq((min(aggr.location$YEAR)), (max(aggr.location$YEAR))))
-pred_1 <- predict(model1 , newdata=NewData_1, level=0)
-#summary(pred_1) 
-#length(pred_1)
+pred_0 <- predict(model0 , newdata=NewData_0, level=0)
+#summary(pred_0) 
+#length(pred_0)
 ```
 
 * Plot model predictions
 
 ```{r}
 # Using model data 
-  Model1_plot <- ggplot(aggr.location, 
+  Model0_plot <- ggplot(aggr.location, 
                         aes(x=YEAR, y=Pocillopora, colour=Location)) +
       geom_point(aes(fill=factor(Location)),
                  shape = 21, colour = "black",
@@ -385,8 +368,8 @@ pred_1 <- predict(model1 , newdata=NewData_1, level=0)
                      breaks = seq(1980, 2018, by=2), 
                      expand = c(0.02,0.02))+
   
-  geom_line(data=NewData_1, 
-            aes(y=predict(model1, level=0, newdata=NewData_1)), size=2)+
+  geom_line(data=NewData_0, 
+            aes(y=predict(model0, level=0, newdata=NewData_0)), size=2)+
   labs(title="Model 1 prediction")
 
 ```
@@ -394,11 +377,11 @@ pred_1 <- predict(model1 , newdata=NewData_1, level=0)
 * Compare data and predictions
 
 ```{r, fig.width=8, fig.height=4.5}
- Model1_All<-grid.arrange(Model_1, Model1_plot, ncol=2)
+ Model0_All<-grid.arrange(Model_0, Model0_plot, ncol=2)
 ```
 
 
-### Pocillopora (model 1b: removing 1980 datapoints)
+### Pocillopora (model 0b: removing 1980 datapoints)
 
 This model includes aggregated data from Chiriqui
 
@@ -416,28 +399,28 @@ summary(aggr.locationb)
 ```{r, fig.show='hold', out.width="50%", fig.height = 3.8, fig.width = 4.5}
 # All years 1980_2018 
 
-  model1b <- lme(
+  model0b <- lme(
     Pocillopora ~ YEAR, random = ~1| Location, data=aggr.locationb)
-  summary(model1b)
-  anova(model1b)
-  print(model1b)
+  summary(model0b)
+  anova(model0b)
+  print(model0b)
   
-  plot(ranef(model1b))    # Symmetrical scatter effects around zero?
-  plot(model1b)           # plot residuals vs fitted
-  resnorm1 <- resid(model1b)
+  plot(ranef(model0b))    # Symmetrical scatter effects around zero?
+  plot(model0b)           # plot residuals vs fitted
+  resnorm1 <- resid(model0b)
   hist(resnorm1, xlab = "Residuals", main = "") # are residuals normally distributed?
-  coef.m1 <- as.data.frame(coef(summary(model1b)))    # Coefficients of the model
+  coef.m1 <- as.data.frame(coef(summary(model0b)))    # Coefficients of the model
   
-  plot(model1b, resid(., type = "p") ~ fitted(.) | Location, abline = 0)
-  plot(model1b, Pocillopora ~ fitted(.), abline = c(0,1))
+  plot(model0b, resid(., type = "p") ~ fitted(.) | Location, abline = 0)
+  plot(model0b, Pocillopora ~ fitted(.), abline = c(0,1))
   
 ```
 
-**Model 1b (data) plot**
+**Model 0b (data) plot**
 
 ```{r, echo=FALSE}
 
-Model_1b_data <- ggplot(aggr.locationb, aes(x=YEAR, y=Pocillopora)) +
+Model_0b_data <- ggplot(aggr.locationb, aes(x=YEAR, y=Pocillopora)) +
   stat_boxplot(aes(group=YEAR), geom = 'errorbar')+
   geom_point(aes(colour=Location))+
   geom_smooth(method = lm, se=FALSE, linetype = "dashed", colour="red")+
@@ -456,27 +439,27 @@ Model_1b_data <- ggplot(aggr.locationb, aes(x=YEAR, y=Pocillopora)) +
   annotate("rect", xmin = 2015, xmax = 2016,
            ymin = 0, ymax = 80,  alpha = .2, fill="gray")+
   theme(legend.position = c(0.25, 0.8))+
-  labs(title="Model 1 data")
+  labs(title="Model 0 data")
 ```
 
-**Model 1b **
+**Model 0b **
 
 * Extract model 1b predicted values 
 
 ```{r}
 # Create a new data frame for independent variables  
-NewData_1b <- expand.grid(Location=unique(aggr.locationb$Location),
-                        YEAR=seq((min(aggr.locationb$YEAR)), (max(aggr.locationb$YEAR))))
-pred_1b <- predict(model1b , newdata=NewData_1b, level=0)
-#summary(pred_1) 
-#length(pred_1)
+NewData_0b <- expand.grid(Location=unique(aggr.locationb$Location),
+                        YEAR=seq((min(aggr.location$YEAR)), (max(aggr.locationb$YEAR))))
+pred_0b <- predict(model0b, newdata=NewData_0b, level=0)
+#summary(pred_0b) 
+#length(pred_0b)
 ```
 
 * Plot model predictions
 
 ```{r}
 # Using model data 
-  Model1_plotb <- ggplot(aggr.locationb, 
+  Model0_plotb <- ggplot(aggr.locationb, 
                         aes(x=YEAR, y=Pocillopora, colour=Location)) +
       geom_point(aes(fill=factor(Location)),
                  shape = 21, colour = "black",
@@ -489,20 +472,20 @@ pred_1b <- predict(model1b , newdata=NewData_1b, level=0)
                      breaks = seq(1980, 2018, by=2), 
                      expand = c(0.0,0.0))+
 
-  geom_line(data=NewData_1b, 
-            aes(y=predict(model1b, level=0, newdata=NewData_1b)), size=2)+
+  geom_line(data=NewData_0b, 
+            aes(y=predict(model0b, level=0, newdata=NewData_0b)), size=2)+
   labs(title="Model 1b prediction")
 
 ```
 
-**Model 1b (data) plot vs (predicted values)**
+**Model 0b (data) plot vs (predicted values)**
 
 ```{r, fig.width=8, fig.height=4.5}
- Model1b_All<-grid.arrange(Model_1b_data, Model1_plotb, ncol=2)
+ Model0b_All<-grid.arrange(Model_0b_data, Model0_plotb, ncol=2)
 ```
 
 
-### Pocillopora model 2 (+ multiple comparisons among years)
+### Pocillopora model 1 (+ multiple comparisons among years)
 
 This model includes data from Chiriqui
 
@@ -517,24 +500,24 @@ This model includes data from Chiriqui
 * Better normality
 
 ```{r, fig.show='hold', out.width="50%", fig.height = 3.8, fig.width = 4.5}
-model2 <- lme(
+model1_final <- lme(
     Pocillopora ~ -1 + Year_F, random = ~1|Location, data=aggr.location)
-    summary(model2)
-    anova(model2)
+    summary(model1_final)
+    anova(model1_final)
     
-  plot(ranef(model2))    # Symmetrical scatter effects around zero?
-  plot(model2)           # plot residuals vs fitted
-  resnorm1 <- resid(model2)
+  plot(ranef(model1_final))    # Symmetrical scatter effects around zero?
+  plot(model1_final)           # plot residuals vs fitted
+  resnorm1 <- resid(model1_final)
   hist(resnorm1, xlab = "Residuals", main = "") # are residuals normally distributed?
-  coef.m1 <- as.data.frame(coef(summary(model2)))    # Coefficients of the model
+  coef.m1 <- as.data.frame(coef(summary(model1_final)))    # Coefficients of the model
   
-  plot(model2, resid(., type = "p") ~ fitted(.) | Location, abline = 0)
-  plot(model2, Pocillopora ~ fitted(.), abline = c(0,1))
+  plot(model1_final, resid(., type = "p") ~ fitted(.) | Location, abline = 0)
+  plot(model1_final, Pocillopora ~ fitted(.), abline = c(0,1))
 ```
 
 ```{r}
 # Multicomp emmeans
-    Year_F.emm<-emmeans(model2, ~Year_F)
+    Year_F.emm<-emmeans(model1_final, ~Year_F)
     #contrast(Year_F.emm, "tukey")
     year_groups<-cld(Year_F.emm, by=NULL) # compact-letter display
     year_groups<-year_groups[order(year_groups$Year_F),] 
@@ -554,24 +537,24 @@ Multiple comparisons among years
 ```{r} 
 
 # Multicomp emmeans glht
-  m.comp_Pocillopora <- glht(model2, linfct = mcp(Year_F = "Tukey"))
-  Model2_multipcomp<-summary(m.comp_Pocillopora, test = univariate())
-  Model2_multipcomp
+  m.comp_Pocillopora <- glht(model1_final, linfct = mcp(Year_F = "Tukey"))
+  Model1_multipcomp<-summary(m.comp_Pocillopora, test = univariate())
+  Model1_multipcomp
 ```
 
 
-**Model 2 plot (data)**
+**Model 1 plot (data)**
 
 ```{r}
-Model2_data <- ggplot(aggr.location, aes(x=YEAR, y=Pocillopora)) +
+Model1_data <- ggplot(aggr.location, aes(x=YEAR, y=Pocillopora)) +
   geom_boxplot(aes(group=YEAR), outlier.shape = NA) +
   stat_boxplot(aes(group=YEAR), geom = 'errorbar')+
  geom_point(aes(fill=factor(Location)),
                  shape = 21, colour = "black",
                  size = 2, stroke = 0.8, alpha=0.5) +
-  stat_summary(fun.y=mean, geom="line", colour="gray")+
+  stat_summary(fun=mean, geom="line", colour="gray")+
 
-  scale_y_continuous("Pocillopora sp. cover (%)", limits = c(-2, 80),
+  scale_y_continuous("Pocillopora spp. cover (%)", limits = c(-2, 80),
                      breaks = seq(-0, 80, by=10),
                      expand = c(0,0))+
   scale_x_continuous("", limits = c(1979, 2019),
@@ -585,11 +568,12 @@ Model2_data <- ggplot(aggr.location, aes(x=YEAR, y=Pocillopora)) +
            ymin = 0, ymax = 80,  alpha = .2, fill="gray")+
   #ggtitle("Model 2 data")+
   theme(legend.position = c(0.25, 0.8))
-#ggsave(file="Outputs/Fig_1.svg", plot=Model2_data, width=7, height=4.5)
+Model1_data
+#ggsave(file="Outputs/Fig_1b.svg", plot=Model2_data, width=7, height=4.3)
 ```
 
 
-**Model 2 (predicted values)**
+**Model 1 (predicted values)**
 
 * Extract model 2 predicted values 
 
@@ -597,19 +581,19 @@ Model2_data <- ggplot(aggr.location, aes(x=YEAR, y=Pocillopora)) +
 # Option 1
 
   # Create a new data frame for independent variables  
-  NewData_2 <- expand.grid(Location=unique(aggr.location$Location),
+  NewData_1 <- expand.grid(Location=unique(aggr.location$Location),
                           Year_F=unique(aggr.location$Year_F))
-  pred_2 <- predict(model2 , newdata=NewData_2, re.form= ~(1|Location),
+  pred_1 <- predict(model1_final , newdata=NewData_1, re.form= ~(1|Location),
                     level=0)
-  #summary(pred_2) 
-  #length(pred_2)
+  #summary(pred_1) 
+  #length(pred_1)
   
-  Predicted_Pocillopora<-cbind(NewData_2, pred_2)
+  Predicted_Pocillopora<-cbind(NewData_1, pred_1)
   #write.csv(Predicted_Pocillopora, "Model2Predictions.c")
 
 # Option 2
   # Effect plot
-    Model2_plot<-plot(emmeans(model2, ~Year_F), comparisons = TRUE) +
+    Model1_plot<-plot(emmeans(model1_final, ~Year_F), comparisons = TRUE) +
         coord_flip(xlim = NULL, ylim = NULL, expand = TRUE) + theme_bw() +
         theme(axis.text.x = element_text(angle = 90)) + 
         ggtitle("Model 2 preditions")
@@ -619,7 +603,7 @@ Model2_data <- ggplot(aggr.location, aes(x=YEAR, y=Pocillopora)) +
 
 ```{r, fig.width=8, fig.height=4.5}
  
- Model2_All<-grid.arrange(Model2_data, Model2_plot, ncol=2)
+ Model1_All<-grid.arrange(Model1_data, Model1_plot, ncol=2)
     
 ```
 
