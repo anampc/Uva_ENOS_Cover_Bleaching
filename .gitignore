@@ -35,7 +35,6 @@ vignettes/*.pdf
 # .svg and .eps figures
 *.jpg
 *.JPG
-*.svg
 *.eps
 
 myheader.html

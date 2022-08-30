@@ -82,7 +82,7 @@ theme_set (theme_classic() + theme(panel.grid.major = element_blank(),
 
 ```{r, echo=FALSE}
 
-# Total datapoints per dataset  
+# Total data points per dataset  
   Summary_DataSet<-cover %>%
             group_by(Location, YEAR) %>%
             dplyr::summarise(total.count=n()) 
@@ -542,6 +542,7 @@ Multiple comparisons among years
   Model1_multipcomp
 ```
 
+## Figure 1b: Pocillopora coral cover
 
 **Model 1 plot (data)**
 
@@ -572,6 +573,7 @@ Model1_data
 #ggsave(file="Outputs/Fig_1b.svg", plot=Model2_data, width=7, height=4.3)
 ```
 
+**Figure 1b.** b. Pocillopora spp. cover estimated using aggregated data from three datasets. The circles represent the mean values from a dataset for each month-year. The gray line represents the mean Pocillopora cover from all three datasets. The boxplots show the median (second quartile), first and third quartiles, with the bars extending from the minimum to the maximum mean coral cover recorded per dataset. Gray vertical bars demarcate the periods of “very strong” El Niño events (ONI > 2 ºC).
 
 **Model 1 (predicted values)**
 
@@ -596,7 +598,7 @@ Model1_data
     Model1_plot<-plot(emmeans(model1_final, ~Year_F), comparisons = TRUE) +
         coord_flip(xlim = NULL, ylim = NULL, expand = TRUE) + theme_bw() +
         theme(axis.text.x = element_text(angle = 90)) + 
-        ggtitle("Model 2 preditions")
+        ggtitle("Model 2 predictions")
 
 ```
 
@@ -606,6 +608,9 @@ Model1_data
  Model1_All<-grid.arrange(Model1_data, Model1_plot, ncol=2)
     
 ```
+
+
+
 
 ## Aggregate data (Massives)
 
@@ -750,7 +755,7 @@ massives_plot <- ggplot(aggr.location.mas, aes(x=YEAR, y=Massive)) +
   model4_plot<-plot(emmeans(Model4, ~Year_F), comparisons = TRUE) +
       coord_flip(xlim = NULL, ylim = NULL, expand = TRUE) + theme_bw() +
     theme(axis.text.x = element_text(angle = 90)) + 
-    ggtitle("Model 2 preditions")
+    ggtitle("Model 2 predictions")
 
 ```
 
@@ -975,7 +980,7 @@ Model 8 plot
 
 *Summary*: 
 
-* Pretty much same as only Pocillopora ... 
+* Pretty much the same as only Pocillopora ... 
 
 * 1980 is different from 1983-2001 -> Coral cover lose after 1981-82 ENSO
 * "Recovery" by 2002 (no differences between 1980 and 2002) uninterrupted until 2018 -> no significant cover loss in 1997-98 nor 2015-16
@@ -1245,7 +1250,7 @@ Cover<-grid.arrange(Plot_45 , Plot_UvaChains, Plot_Uva1m2, ncol=1)
 
 ```
 
-# 3. Supplemantary datasets (Canal del Afuera and Secas)  
+# 3. Supplementary datasets (Canal del Afuera and Secas)  
 
 ## Import data 
 
@@ -1327,7 +1332,7 @@ Pocillopora_CA
   plot(emmeans(model_CA, ~Year_F), comparisons = TRUE) +
       coord_flip(xlim = NULL, ylim = NULL, expand = TRUE) + theme_bw() +
     theme(axis.text.x = element_text(angle = 90)) + 
-    ggtitle("Model CA preditions")
+    ggtitle("Model CA predictions")
 ```
  
 * Summary stats *Pocillopora* CA
@@ -1414,7 +1419,7 @@ Massive_Secas
   plot(emmeans(model_Secas, ~Year_F), comparisons = TRUE) +
       coord_flip(xlim = NULL, ylim = NULL, expand = TRUE) + theme_bw() +
     theme(axis.text.x = element_text(angle = 90)) + 
-    ggtitle("Model Secas preditions")
+    ggtitle("Model Secas predictions")
 ```
  
 * Summary stats Massives Secas
@@ -1444,7 +1449,7 @@ Massive_Secas
 ```
  
  
-## Massives Uva+Secas 
+## Figure S2: Massives Uva+Secas 
 
 ```{r, echo=FALSE}
 
@@ -1476,8 +1481,9 @@ massives_plot
   
 ```
 
+**Figure S1:** Percentage of cover by other scleractinian coral (non-Pocillopora) in Uva Island (top panel) Secas Island (bottom panel) reefs. Uva Island Non-Pocillopora scleractinian cover was <3.2% of the benthos across datasets and years. Secas Island was the only site with a significant cover of massive species before 1982-83 ENSO 18.2% (± 25.5 sd). However, the cover was reduced to 0.4% (± 0.7) after the 1982-83 ENSO and has not recovered up to 2018 (massive’s cover <1.5% in all the surveys between 1983 and 2018). 
 
-## Other Supplemetary figures cover
+## Other Supplementary figures cover
 
 ```{r, echo=FALSE}
 

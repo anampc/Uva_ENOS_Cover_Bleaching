@@ -1,0 +1,1588 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   class="svglite"
+   width="576.00pt"
+   height="468.00pt"
+   viewBox="0 0 576.00 468.00"
+   version="1.1"
+   id="svg499"
+   sodipodi:docname="Fig_S2_R1.svg"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
+   inkscape:export-filename="/home/mcano/Documents/WorkingRepos/ETP_UVA/2.Uva_cover_bleaching/Outputs/Figure_2G.png"
+   inkscape:export-xdpi="300"
+   inkscape:export-ydpi="300">
+  <metadata
+     id="metadata503">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1844"
+     inkscape:window-height="1016"
+     id="namedview501"
+     showgrid="false"
+     inkscape:zoom="1.14"
+     inkscape:cx="484.1636"
+     inkscape:cy="346.56141"
+     inkscape:window-x="1996"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg499" />
+  <defs
+     id="defs4">
+    <style
+       type="text/css"
+       id="style2"><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  ]]></style>
+  </defs>
+  <rect
+     width="100%"
+     height="100%"
+     style="stroke: none; fill: #FFFFFF;"
+     id="rect6" />
+  <defs
+     id="defs11">
+    <clipPath
+       id="cpMC4wMHw1NzYuMDB8MC4wMHw0NjguMDA=">
+      <rect
+         x="0.00"
+         y="0.00"
+         width="576.00"
+         height="468.00"
+         id="rect8" />
+    </clipPath>
+  </defs>
+  <g
+     clip-path="url(#cpMC4wMHw1NzYuMDB8MC4wMHw0NjguMDA=)"
+     id="g15"
+     transform="translate(21.5,0.5)">
+    <rect
+       x="0"
+       y="-1.1e-13"
+       width="576"
+       height="468"
+       style="fill:#ffffff;stroke:#ffffff;stroke-width:1.07000005;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10"
+       id="rect13" />
+  </g>
+  <defs
+     id="defs20">
+    <clipPath
+       id="cpNDMuMDR8MTQ0LjE1fDIyLjQ5fDMxMC4xOQ==">
+      <rect
+         x="43.04"
+         y="22.49"
+         width="101.11"
+         height="287.70"
+         id="rect17" />
+    </clipPath>
+  </defs>
+  <g
+     clip-path="url(#cpNDMuMDR8MTQ0LjE1fDIyLjQ5fDMxMC4xOQ==)"
+     id="g56">
+    <rect
+       x="43.04"
+       y="22.49"
+       width="101.11"
+       height="287.70"
+       style="stroke-width: 1.07; stroke: none; fill: #FFFFFF;"
+       id="rect22" />
+    <line
+       x1="51.46"
+       y1="59.34"
+       x2="51.46"
+       y2="59.34"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line24" />
+    <line
+       x1="65.51"
+       y1="74.52"
+       x2="65.51"
+       y2="61.03"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line26" />
+    <line
+       x1="79.55"
+       y1="59.34"
+       x2="79.55"
+       y2="59.34"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line28" />
+    <line
+       x1="93.59"
+       y1="100.32"
+       x2="93.59"
+       y2="74.94"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line30" />
+    <line
+       x1="107.64"
+       y1="140.86"
+       x2="107.64"
+       y2="116.71"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line32" />
+    <line
+       x1="121.68"
+       y1="212.02"
+       x2="121.68"
+       y2="164.46"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line34" />
+    <line
+       x1="135.72"
+       y1="297.11"
+       x2="135.72"
+       y2="195.21"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line36" />
+    <circle
+       cx="51.46"
+       cy="59.34"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #F8766D;"
+       id="circle38" />
+    <circle
+       cx="65.51"
+       cy="66.09"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #A3A500;"
+       id="circle40" />
+    <circle
+       cx="79.55"
+       cy="59.34"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #A3A500;"
+       id="circle42" />
+    <circle
+       cx="93.59"
+       cy="86.63"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #E76BF3;"
+       id="circle44" />
+    <circle
+       cx="107.64"
+       cy="128.79"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #E76BF3;"
+       id="circle46" />
+    <circle
+       cx="121.68"
+       cy="189.49"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #00BF7D;"
+       id="circle48" />
+    <circle
+       cx="135.72"
+       cy="263.15"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #00B0F6;"
+       id="circle50" />
+    <line
+       x1="0.00"
+       y1="178.23"
+       x2="245.26"
+       y2="178.23"
+       style="stroke-width: 1.07; stroke: #BEBEBE; stroke-linecap: butt;"
+       id="line52" />
+    <rect
+       x="43.04"
+       y="22.49"
+       width="101.11"
+       height="287.70"
+       style="stroke-width: 1.07;"
+       id="rect54" />
+  </g>
+  <g
+     clip-path="url(#cpMC4wMHw1NzYuMDB8MC4wMHw0NjguMDA=)"
+     id="g58" />
+  <defs
+     id="defs63">
+    <clipPath
+       id="cpMTQ5LjYzfDI1MC43NHwyMi40OXwzMTAuMTk=">
+      <rect
+         x="149.63"
+         y="22.49"
+         width="101.11"
+         height="287.70"
+         id="rect60" />
+    </clipPath>
+  </defs>
+  <g
+     clip-path="url(#cpMTQ5LjYzfDI1MC43NHwyMi40OXwzMTAuMTk=)"
+     id="g99">
+    <rect
+       x="149.63"
+       y="22.49"
+       width="101.11"
+       height="287.70"
+       style="stroke-width: 1.07; stroke: none; fill: #FFFFFF;"
+       id="rect65" />
+    <line
+       x1="158.06"
+       y1="59.34"
+       x2="158.06"
+       y2="59.34"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line67" />
+    <line
+       x1="172.10"
+       y1="276.52"
+       x2="172.10"
+       y2="248.44"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line69" />
+    <line
+       x1="186.14"
+       y1="282.25"
+       x2="186.14"
+       y2="246.51"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line71" />
+    <line
+       x1="200.19"
+       y1="297.11"
+       x2="200.19"
+       y2="261.30"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line73" />
+    <line
+       x1="214.23"
+       y1="269.41"
+       x2="214.23"
+       y2="234.78"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line75" />
+    <line
+       x1="228.27"
+       y1="297.11"
+       x2="228.27"
+       y2="297.11"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line77" />
+    <line
+       x1="242.32"
+       y1="297.11"
+       x2="242.32"
+       y2="195.21"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line79" />
+    <circle
+       cx="158.06"
+       cy="59.34"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #F8766D;"
+       id="circle81" />
+    <circle
+       cx="172.10"
+       cy="263.41"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #A3A500;"
+       id="circle83" />
+    <circle
+       cx="186.14"
+       cy="264.42"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #A3A500;"
+       id="circle85" />
+    <circle
+       cx="200.19"
+       cy="279.28"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #E76BF3;"
+       id="circle87" />
+    <circle
+       cx="214.23"
+       cy="253.25"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #E76BF3;"
+       id="circle89" />
+    <circle
+       cx="228.27"
+       cy="297.11"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #00BF7D;"
+       id="circle91" />
+    <circle
+       cx="242.32"
+       cy="263.15"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #00B0F6;"
+       id="circle93" />
+    <line
+       x1="48.52"
+       y1="178.23"
+       x2="351.86"
+       y2="178.23"
+       style="stroke-width: 1.07; stroke: #BEBEBE; stroke-linecap: butt;"
+       id="line95" />
+    <rect
+       x="149.63"
+       y="22.49"
+       width="101.11"
+       height="287.70"
+       style="stroke-width: 1.07;"
+       id="rect97" />
+  </g>
+  <g
+     clip-path="url(#cpMC4wMHw1NzYuMDB8MC4wMHw0NjguMDA=)"
+     id="g101" />
+  <defs
+     id="defs106">
+    <clipPath
+       id="cpMjU2LjIyfDM1Ny4zNHwyMi40OXwzMTAuMTk=">
+      <rect
+         x="256.22"
+         y="22.49"
+         width="101.11"
+         height="287.70"
+         id="rect103" />
+    </clipPath>
+  </defs>
+  <g
+     clip-path="url(#cpMjU2LjIyfDM1Ny4zNHwyMi40OXwzMTAuMTk=)"
+     id="g138">
+    <rect
+       x="256.22"
+       y="22.49"
+       width="101.11"
+       height="287.70"
+       style="stroke-width: 1.07; stroke: none; fill: #FFFFFF;"
+       id="rect108" />
+    <line
+       x1="278.69"
+       y1="113.50"
+       x2="278.69"
+       y2="83.94"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line110" />
+    <line
+       x1="292.74"
+       y1="59.34"
+       x2="292.74"
+       y2="59.34"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line112" />
+    <line
+       x1="306.78"
+       y1="297.11"
+       x2="306.78"
+       y2="260.13"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line114" />
+    <line
+       x1="320.82"
+       y1="285.79"
+       x2="320.82"
+       y2="234.84"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line116" />
+    <line
+       x1="334.87"
+       y1="211.02"
+       x2="334.87"
+       y2="167.98"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line118" />
+    <line
+       x1="348.91"
+       y1="220.41"
+       x2="348.91"
+       y2="136.04"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line120" />
+    <circle
+       cx="278.69"
+       cy="98.70"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #A3A500;"
+       id="circle122" />
+    <circle
+       cx="292.74"
+       cy="59.34"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #A3A500;"
+       id="circle124" />
+    <circle
+       cx="306.78"
+       cy="281.26"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #E76BF3;"
+       id="circle126" />
+    <circle
+       cx="320.82"
+       cy="263.15"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #E76BF3;"
+       id="circle128" />
+    <circle
+       cx="334.87"
+       cy="190.53"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #00BF7D;"
+       id="circle130" />
+    <circle
+       cx="348.91"
+       cy="174.39"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #00B0F6;"
+       id="circle132" />
+    <line
+       x1="155.11"
+       y1="178.23"
+       x2="458.45"
+       y2="178.23"
+       style="stroke-width: 1.07; stroke: #BEBEBE; stroke-linecap: butt;"
+       id="line134" />
+    <rect
+       x="256.22"
+       y="22.49"
+       width="101.11"
+       height="287.70"
+       style="stroke-width: 1.07;"
+       id="rect136" />
+  </g>
+  <g
+     clip-path="url(#cpMC4wMHw1NzYuMDB8MC4wMHw0NjguMDA=)"
+     id="g140" />
+  <defs
+     id="defs145">
+    <clipPath
+       id="cpMzYyLjgyfDQ2My45M3wyMi40OXwzMTAuMTk=">
+      <rect
+         x="362.82"
+         y="22.49"
+         width="101.11"
+         height="287.70"
+         id="rect142" />
+    </clipPath>
+  </defs>
+  <g
+     clip-path="url(#cpMzYyLjgyfDQ2My45M3wyMi40OXwzMTAuMTk=)"
+     id="g181">
+    <rect
+       x="362.82"
+       y="22.49"
+       width="101.11"
+       height="287.70"
+       style="stroke-width: 1.07; stroke: none; fill: #FFFFFF;"
+       id="rect147" />
+    <line
+       x1="371.24"
+       y1="59.34"
+       x2="371.24"
+       y2="59.34"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line149" />
+    <line
+       x1="385.28"
+       y1="118.79"
+       x2="385.28"
+       y2="59.34"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line151" />
+    <line
+       x1="399.33"
+       y1="94.31"
+       x2="399.33"
+       y2="59.34"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line153" />
+    <line
+       x1="413.37"
+       y1="272.08"
+       x2="413.37"
+       y2="221.92"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line155" />
+    <line
+       x1="427.42"
+       y1="240.91"
+       x2="427.42"
+       y2="176.07"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line157" />
+    <line
+       x1="441.46"
+       y1="149.92"
+       x2="441.46"
+       y2="70.67"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line159" />
+    <line
+       x1="455.50"
+       y1="244.28"
+       x2="455.50"
+       y2="180.87"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line161" />
+    <circle
+       cx="371.24"
+       cy="59.34"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #F8766D;"
+       id="circle163" />
+    <circle
+       cx="385.28"
+       cy="84.82"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #A3A500;"
+       id="circle165" />
+    <circle
+       cx="399.33"
+       cy="73.33"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #A3A500;"
+       id="circle167" />
+    <circle
+       cx="413.37"
+       cy="247.06"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #E76BF3;"
+       id="circle169" />
+    <circle
+       cx="427.42"
+       cy="206.33"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #E76BF3;"
+       id="circle171" />
+    <circle
+       cx="441.46"
+       cy="104.63"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #00BF7D;"
+       id="circle173" />
+    <circle
+       cx="455.50"
+       cy="212.57"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #00B0F6;"
+       id="circle175" />
+    <line
+       x1="261.70"
+       y1="178.23"
+       x2="565.04"
+       y2="178.23"
+       style="stroke-width: 1.07; stroke: #BEBEBE; stroke-linecap: butt;"
+       id="line177" />
+    <rect
+       x="362.82"
+       y="22.49"
+       width="101.11"
+       height="287.70"
+       style="stroke-width: 1.07;"
+       id="rect179" />
+  </g>
+  <g
+     clip-path="url(#cpMC4wMHw1NzYuMDB8MC4wMHw0NjguMDA=)"
+     id="g183" />
+  <defs
+     id="defs188">
+    <clipPath
+       id="cpNDY5LjQxfDU3MC41MnwyMi40OXwzMTAuMTk=">
+      <rect
+         x="469.41"
+         y="22.49"
+         width="101.11"
+         height="287.70"
+         id="rect185" />
+    </clipPath>
+  </defs>
+  <g
+     clip-path="url(#cpNDY5LjQxfDU3MC41MnwyMi40OXwzMTAuMTk=)"
+     id="g224">
+    <rect
+       x="469.41"
+       y="22.49"
+       width="101.11"
+       height="287.70"
+       style="stroke-width: 1.07; stroke: none; fill: #FFFFFF;"
+       id="rect190" />
+    <line
+       x1="477.83"
+       y1="59.34"
+       x2="477.83"
+       y2="59.34"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line192" />
+    <line
+       x1="491.88"
+       y1="132.50"
+       x2="491.88"
+       y2="77.63"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line194" />
+    <line
+       x1="505.92"
+       y1="156.21"
+       x2="505.92"
+       y2="76.96"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line196" />
+    <line
+       x1="519.96"
+       y1="276.44"
+       x2="519.96"
+       y2="193.74"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line198" />
+    <line
+       x1="534.01"
+       y1="250.88"
+       x2="534.01"
+       y2="178.06"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line200" />
+    <line
+       x1="548.05"
+       y1="124.19"
+       x2="548.05"
+       y2="66.55"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line202" />
+    <line
+       x1="562.09"
+       y1="227.76"
+       x2="562.09"
+       y2="128.69"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line204" />
+    <circle
+       cx="477.83"
+       cy="59.34"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #F8766D;"
+       id="circle206" />
+    <circle
+       cx="491.88"
+       cy="102.02"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #A3A500;"
+       id="circle208" />
+    <circle
+       cx="505.92"
+       cy="112.18"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #A3A500;"
+       id="circle210" />
+    <circle
+       cx="519.96"
+       cy="235.09"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #E76BF3;"
+       id="circle212" />
+    <circle
+       cx="534.01"
+       cy="211.25"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #E76BF3;"
+       id="circle214" />
+    <circle
+       cx="548.05"
+       cy="95.37"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #00BF7D;"
+       id="circle216" />
+    <circle
+       cx="562.09"
+       cy="178.23"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #00B0F6;"
+       id="circle218" />
+    <line
+       x1="368.29"
+       y1="178.23"
+       x2="576.00"
+       y2="178.23"
+       style="stroke-width: 1.07; stroke: #BEBEBE; stroke-linecap: butt;"
+       id="line220" />
+    <rect
+       x="469.41"
+       y="22.49"
+       width="101.11"
+       height="287.70"
+       style="stroke-width: 1.07;"
+       id="rect222" />
+  </g>
+  <g
+     clip-path="url(#cpMC4wMHw1NzYuMDB8MC4wMHw0NjguMDA=)"
+     id="g226" />
+  <defs
+     id="defs231">
+    <clipPath
+       id="cpNDMuMDR8MTQ0LjE1fDUuNDh8MjIuNDk=">
+      <rect
+         x="43.04"
+         y="5.48"
+         width="101.11"
+         height="17.01"
+         id="rect228" />
+    </clipPath>
+  </defs>
+  <g
+     clip-path="url(#cpNDMuMDR8MTQ0LjE1fDUuNDh8MjIuNDk=)"
+     id="g237"
+     transform="translate(0,16.5)">
+    <rect
+       x="43.040001"
+       y="5.48"
+       width="101.11"
+       height="17.01"
+       style="fill:#ffffff;stroke:#000000;stroke-width:2.13000011;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10"
+       id="rect233" />
+  </g>
+  <g
+     clip-path="url(#cpMC4wMHw1NzYuMDB8MC4wMHw0NjguMDA=)"
+     id="g239" />
+  <defs
+     id="defs244">
+    <clipPath
+       id="cpMTQ5LjYzfDI1MC43NHw1LjQ4fDIyLjQ5">
+      <rect
+         x="149.63"
+         y="5.48"
+         width="101.11"
+         height="17.01"
+         id="rect241" />
+    </clipPath>
+  </defs>
+  <g
+     clip-path="url(#cpMTQ5LjYzfDI1MC43NHw1LjQ4fDIyLjQ5)"
+     id="g250"
+     transform="translate(0,16.5)">
+    <rect
+       x="149.63"
+       y="5.48"
+       width="101.11"
+       height="17.01"
+       style="fill:#ffffff;stroke:#000000;stroke-width:2.13000011;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10"
+       id="rect246" />
+  </g>
+  <g
+     clip-path="url(#cpMC4wMHw1NzYuMDB8MC4wMHw0NjguMDA=)"
+     id="g252" />
+  <defs
+     id="defs257">
+    <clipPath
+       id="cpMjU2LjIyfDM1Ny4zNHw1LjQ4fDIyLjQ5">
+      <rect
+         x="256.22"
+         y="5.48"
+         width="101.11"
+         height="17.01"
+         id="rect254" />
+    </clipPath>
+  </defs>
+  <g
+     clip-path="url(#cpMjU2LjIyfDM1Ny4zNHw1LjQ4fDIyLjQ5)"
+     id="g263"
+     transform="translate(0,16.5)">
+    <rect
+       x="256.22"
+       y="5.48"
+       width="101.11"
+       height="17.01"
+       style="fill:#ffffff;stroke:#000000;stroke-width:2.13000011;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10"
+       id="rect259" />
+  </g>
+  <g
+     clip-path="url(#cpMC4wMHw1NzYuMDB8MC4wMHw0NjguMDA=)"
+     id="g265" />
+  <defs
+     id="defs270">
+    <clipPath
+       id="cpMzYyLjgyfDQ2My45M3w1LjQ4fDIyLjQ5">
+      <rect
+         x="362.82"
+         y="5.48"
+         width="101.11"
+         height="17.01"
+         id="rect267" />
+    </clipPath>
+  </defs>
+  <g
+     clip-path="url(#cpMzYyLjgyfDQ2My45M3w1LjQ4fDIyLjQ5)"
+     id="g276"
+     transform="translate(0,16.5)">
+    <rect
+       x="362.82001"
+       y="5.48"
+       width="101.11"
+       height="17.01"
+       style="fill:#ffffff;stroke:#000000;stroke-width:2.13000011;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10"
+       id="rect272" />
+  </g>
+  <g
+     clip-path="url(#cpMC4wMHw1NzYuMDB8MC4wMHw0NjguMDA=)"
+     id="g278" />
+  <defs
+     id="defs283">
+    <clipPath
+       id="cpNDY5LjQxfDU3MC41Mnw1LjQ4fDIyLjQ5">
+      <rect
+         x="469.41"
+         y="5.48"
+         width="101.11"
+         height="17.01"
+         id="rect280" />
+    </clipPath>
+  </defs>
+  <g
+     clip-path="url(#cpNDY5LjQxfDU3MC41Mnw1LjQ4fDIyLjQ5)"
+     id="g289"
+     transform="translate(0,16.5)">
+    <rect
+       x="469.41"
+       y="5.48"
+       width="101.11"
+       height="17.01"
+       style="fill:#ffffff;stroke:#000000;stroke-width:2.13000011;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10"
+       id="rect285" />
+  </g>
+  <g
+     clip-path="url(#cpMC4wMHw1NzYuMDB8MC4wMHw0NjguMDA=)"
+     id="g497">
+    <polyline
+       points="43.04,310.19 144.15,310.19 "
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="polyline291" />
+    <polyline
+       points="51.46,312.93 51.46,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline293" />
+    <polyline
+       points="65.51,312.93 65.51,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline295" />
+    <polyline
+       points="79.55,312.93 79.55,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline297" />
+    <polyline
+       points="93.59,312.93 93.59,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline299" />
+    <polyline
+       points="107.64,312.93 107.64,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline301" />
+    <polyline
+       points="121.68,312.93 121.68,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline303" />
+    <polyline
+       points="135.72,312.93 135.72,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline305" />
+    <text
+       transform="translate(54.67,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="79.73px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text307">Millepora intricata</text>
+    <text
+       transform="translate(68.72,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="66.87px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text309">Pavona varians</text>
+    <text
+       transform="translate(82.76,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="62.70px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text311">Pavona clavus</text>
+    <text
+       transform="translate(96.80,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="85.13px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text313">Pocillopora elegans</text>
+    <text
+       transform="translate(110.85,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="99.01px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text315">Pocillopora damicornis</text>
+    <text
+       transform="translate(124.89,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="108.20px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text317">Gardineroseris planulata</text>
+    <text
+       transform="translate(138.93,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="60.34px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text319">Porites lobata</text>
+    <polyline
+       points="149.63,310.19 250.74,310.19 "
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="polyline321" />
+    <polyline
+       points="158.06,312.93 158.06,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline323" />
+    <polyline
+       points="172.10,312.93 172.10,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline325" />
+    <polyline
+       points="186.14,312.93 186.14,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline327" />
+    <polyline
+       points="200.19,312.93 200.19,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline329" />
+    <polyline
+       points="214.23,312.93 214.23,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline331" />
+    <polyline
+       points="228.27,312.93 228.27,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline333" />
+    <polyline
+       points="242.32,312.93 242.32,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline335" />
+    <text
+       transform="translate(161.26,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="79.73px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text337">Millepora intricata</text>
+    <text
+       transform="translate(175.31,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="66.87px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text339">Pavona varians</text>
+    <text
+       transform="translate(189.35,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="62.70px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text341">Pavona clavus</text>
+    <text
+       transform="translate(203.39,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="85.13px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text343">Pocillopora elegans</text>
+    <text
+       transform="translate(217.44,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="99.01px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text345">Pocillopora damicornis</text>
+    <text
+       transform="translate(231.48,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="108.20px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text347">Gardineroseris planulata</text>
+    <text
+       transform="translate(245.52,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="60.34px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text349">Porites lobata</text>
+    <polyline
+       points="256.22,310.19 357.34,310.19 "
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="polyline351" />
+    <polyline
+       points="264.65,312.93 264.65,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline353" />
+    <polyline
+       points="278.69,312.93 278.69,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline355" />
+    <polyline
+       points="292.74,312.93 292.74,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline357" />
+    <polyline
+       points="306.78,312.93 306.78,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline359" />
+    <polyline
+       points="320.82,312.93 320.82,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline361" />
+    <polyline
+       points="334.87,312.93 334.87,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline363" />
+    <polyline
+       points="348.91,312.93 348.91,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline365" />
+    <text
+       transform="translate(267.86,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="79.73px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text367">Millepora intricata</text>
+    <text
+       transform="translate(281.90,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="66.87px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text369">Pavona varians</text>
+    <text
+       transform="translate(295.94,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="62.70px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text371">Pavona clavus</text>
+    <text
+       transform="translate(309.99,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="85.13px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text373">Pocillopora elegans</text>
+    <text
+       transform="translate(324.03,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="99.01px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text375">Pocillopora damicornis</text>
+    <text
+       transform="translate(338.07,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="108.20px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text377">Gardineroseris planulata</text>
+    <text
+       transform="translate(352.12,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="60.34px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text379">Porites lobata</text>
+    <polyline
+       points="362.82,310.19 463.93,310.19 "
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="polyline381" />
+    <polyline
+       points="371.24,312.93 371.24,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline383" />
+    <polyline
+       points="385.28,312.93 385.28,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline385" />
+    <polyline
+       points="399.33,312.93 399.33,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline387" />
+    <polyline
+       points="413.37,312.93 413.37,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline389" />
+    <polyline
+       points="427.42,312.93 427.42,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline391" />
+    <polyline
+       points="441.46,312.93 441.46,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline393" />
+    <polyline
+       points="455.50,312.93 455.50,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline395" />
+    <text
+       transform="translate(374.45,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="79.73px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text397">Millepora intricata</text>
+    <text
+       transform="translate(388.49,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="66.87px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text399">Pavona varians</text>
+    <text
+       transform="translate(402.54,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="62.70px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text401">Pavona clavus</text>
+    <text
+       transform="translate(416.58,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="85.13px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text403">Pocillopora elegans</text>
+    <text
+       transform="translate(430.62,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="99.01px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text405">Pocillopora damicornis</text>
+    <text
+       transform="translate(444.67,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="108.20px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text407">Gardineroseris planulata</text>
+    <text
+       transform="translate(458.71,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="60.34px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text409">Porites lobata</text>
+    <polyline
+       points="469.41,310.19 570.52,310.19 "
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="polyline411" />
+    <polyline
+       points="477.83,312.93 477.83,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline413" />
+    <polyline
+       points="491.88,312.93 491.88,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline415" />
+    <polyline
+       points="505.92,312.93 505.92,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline417" />
+    <polyline
+       points="519.96,312.93 519.96,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline419" />
+    <polyline
+       points="534.01,312.93 534.01,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline421" />
+    <polyline
+       points="548.05,312.93 548.05,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline423" />
+    <polyline
+       points="562.09,312.93 562.09,310.19 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline425" />
+    <text
+       transform="translate(481.04,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="79.73px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text427">Millepora intricata</text>
+    <text
+       transform="translate(495.08,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="66.87px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text429">Pavona varians</text>
+    <text
+       transform="translate(509.13,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="62.70px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text431">Pavona clavus</text>
+    <text
+       transform="translate(523.17,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="85.13px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text433">Pocillopora elegans</text>
+    <text
+       transform="translate(537.22,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="99.01px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text435">Pocillopora damicornis</text>
+    <text
+       transform="translate(551.26,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="108.20px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text437">Gardineroseris planulata</text>
+    <text
+       transform="translate(565.30,369.22) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="60.34px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text439">Porites lobata</text>
+    <polyline
+       points="43.04,310.19 43.04,22.49 "
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="polyline441" />
+    <text
+       x="38.11"
+       y="300.32"
+       text-anchor="end"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="19.58px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text443">0.00</text>
+    <text
+       x="38.11"
+       y="240.88"
+       text-anchor="end"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="19.58px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text445">0.25</text>
+    <text
+       x="38.11"
+       y="181.44"
+       text-anchor="end"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="19.58px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text447">0.50</text>
+    <text
+       x="38.11"
+       y="121.99"
+       text-anchor="end"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="19.58px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text449">0.75</text>
+    <text
+       x="38.11"
+       y="62.55"
+       text-anchor="end"
+       style="font-size: 8.80px; fill: #4D4D4D; font-family: Arial;"
+       textLength="19.58px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text451">1.00</text>
+    <polyline
+       points="40.30,297.11 43.04,297.11 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline453" />
+    <polyline
+       points="40.30,237.67 43.04,237.67 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline455" />
+    <polyline
+       points="40.30,178.23 43.04,178.23 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline457" />
+    <polyline
+       points="40.30,118.79 43.04,118.79 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline459" />
+    <polyline
+       points="40.30,59.34 43.04,59.34 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline461" />
+    <text
+       transform="translate(13.50,166.34) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 11.00px; font-family: Arial;"
+       textLength="168.33px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text463">Proportion of colonies affected</text>
+    <rect
+       x="123.63"
+       y="434.28"
+       width="366.30"
+       height="28.24"
+       style="stroke-width: 1.07; stroke: none; fill: #FFFFFF;"
+       id="rect465" />
+    <line
+       x1="143.23"
+       y1="455.31"
+       x2="143.23"
+       y2="441.49"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line467" />
+    <circle
+       cx="143.23"
+       cy="448.40"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #F8766D;"
+       id="circle469" />
+    <line
+       x1="211.79"
+       y1="455.31"
+       x2="211.79"
+       y2="441.49"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line471" />
+    <circle
+       cx="211.79"
+       cy="448.40"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #A3A500;"
+       id="circle473" />
+    <line
+       x1="271.89"
+       y1="455.31"
+       x2="271.89"
+       y2="441.49"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line475" />
+    <circle
+       cx="271.89"
+       cy="448.40"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #00BF7D;"
+       id="circle477" />
+    <line
+       x1="364.28"
+       y1="455.31"
+       x2="364.28"
+       y2="441.49"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line479" />
+    <circle
+       cx="364.28"
+       cy="448.40"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #00B0F6;"
+       id="circle481" />
+    <line
+       x1="422.41"
+       y1="455.31"
+       x2="422.41"
+       y2="441.49"
+       style="stroke-width: 1.07; stroke-linecap: butt;"
+       id="line483" />
+    <circle
+       cx="422.41"
+       cy="448.40"
+       r="2.84"
+       style="stroke-width: 1.42; fill: #E76BF3;"
+       id="circle485" />
+    <text
+       x="157.35"
+       y="451.61"
+       style="font-size: 8.80px; font-family: Arial;"
+       textLength="40.33px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text487">Millepora</text>
+    <text
+       x="225.91"
+       y="451.61"
+       style="font-size: 8.80px; font-family: Arial;"
+       textLength="31.86px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text489">Pavona</text>
+    <text
+       x="286.01"
+       y="451.61"
+       style="font-size: 8.80px; font-family: Arial;"
+       textLength="64.15px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text491">Gardineroseris</text>
+    <text
+       x="378.40"
+       y="451.61"
+       style="font-size: 8.80px; font-family: Arial;"
+       textLength="29.89px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text493">Porites</text>
+    <text
+       x="436.53"
+       y="451.61"
+       style="font-size: 8.80px; font-family: Arial;"
+       textLength="47.92px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text495">Pocillopora</text>
+  </g>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5px;line-height:18.75px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="93.015381"
+     y="307.22119"
+     id="text5056-2"><tspan
+       sodipodi:role="line"
+       id="tspan5054-7"
+       x="93.015381"
+       y="307.22119"
+       style="font-size:9px;stroke-width:0.75px">D   CD   D   C  B   A   AD</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5px;line-height:18.75px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="93.690918"
+     y="34.329102"
+     id="text1588"><tspan
+       sodipodi:role="line"
+       id="tspan1586"
+       x="93.690918"
+       y="34.329102"
+       style="font-size:9px;stroke-width:0.75px"><tspan
+   style="font-weight:bold;stroke-width:0.75px"
+   id="tspan1374">1983</tspan>  (6.09 DWH)</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5px;line-height:18.75px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="201.03851"
+     y="34.329102"
+     id="text1588-3"><tspan
+       sodipodi:role="line"
+       id="tspan1586-6"
+       x="201.03851"
+       y="34.329102"
+       style="font-size:9px;stroke-width:0.75px"><tspan
+   style="font-weight:bold;stroke-width:0.75px"
+   id="tspan1376">1997</tspan> (5.58 DHW)</tspan></text>
+  <text
+     id="text1588-3-7"
+     y="34.329102"
+     x="307.62851"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5px;line-height:18.75px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     xml:space="preserve"><tspan
+       style="font-size:9px;stroke-width:0.75px"
+       y="34.329102"
+       x="307.62851"
+       id="tspan1586-6-5"
+       sodipodi:role="line"><tspan
+   style="font-weight:bold;stroke-width:0.75px"
+   id="tspan1378">1998</tspan> (5.58 DHW)</tspan></text>
+  <text
+     id="text1588-3-3"
+     y="34.329102"
+     x="414.58264"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5px;line-height:18.75px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     xml:space="preserve"><tspan
+       style="font-size:9px;stroke-width:0.75px"
+       y="34.329102"
+       x="414.58264"
+       id="tspan1586-6-56"
+       sodipodi:role="line"><tspan
+   style="font-weight:bold;stroke-width:0.75px"
+   id="tspan1380">2015</tspan> (6.84 DHW)</tspan></text>
+  <text
+     id="text1588-3-2"
+     y="34.329102"
+     x="521.17261"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5px;line-height:18.75px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     xml:space="preserve"><tspan
+       style="font-size:9px;stroke-width:0.75px"
+       y="34.329102"
+       x="521.17261"
+       id="tspan1586-6-9"
+       sodipodi:role="line"><tspan
+   style="font-weight:bold;stroke-width:0.75px"
+   id="tspan1382">2016</tspan> (8.17 DHW)</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5px;line-height:18.75px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="110.50256"
+     y="451.75806"
+     id="text5355"><tspan
+       sodipodi:role="line"
+       id="tspan5353"
+       x="110.50256"
+       y="451.75806"
+       style="font-weight:bold;stroke-width:0.75px">Genus</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5px;line-height:18.75px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="304.76929"
+     y="307.22119"
+     id="text5056-2-7"><tspan
+       sodipodi:role="line"
+       id="tspan5054-7-5"
+       x="304.76929"
+       y="307.22119"
+       style="font-size:9px;stroke-width:0.75px">    -    D   E   A   AB BC CD</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5px;line-height:18.75px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="413.26929"
+     y="307.22119"
+     id="text5056-2-35"><tspan
+       sodipodi:role="line"
+       id="tspan5054-7-62"
+       x="413.26929"
+       y="307.22119"
+       style="font-size:9px;stroke-width:0.75px">B   B   B    A   A   B   A</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5px;line-height:18.75px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="519.76929"
+     y="307.22119"
+     id="text5056-2-9"><tspan
+       sodipodi:role="line"
+       id="tspan5054-7-1"
+       x="519.76929"
+       y="307.22119"
+       style="font-size:9px;stroke-width:0.75px">C  BC  BC  A   A  BC AB</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5px;line-height:18.75px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="202.26929"
+     y="307.22119"
+     id="text5056-2-2"><tspan
+       sodipodi:role="line"
+       id="tspan5054-7-7"
+       x="202.26929"
+       y="307.22119"
+       style="font-size:9px;stroke-width:0.75px">B   A    A    A   A   AB  AB</tspan></text>
+</svg>

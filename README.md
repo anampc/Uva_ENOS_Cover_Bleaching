@@ -27,3 +27,5 @@ Directory containing figure files and multicomparison results.
 * Figure 2
 * Figure S1
 * Figure S2
+* Figure S3
+* Figure S4

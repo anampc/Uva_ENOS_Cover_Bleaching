@@ -1,6 +1,6 @@
 ---
-title: "Uva Island bleaching 2"
-author: "Ana M. Palacio-Castro"
+title: "Uva Island bleaching v2"
+author: "Ana M. Palacio-Castro and Tyler Smith"
 date: "`r Sys.Date()`"
 output:
   html_document:
@@ -18,9 +18,7 @@ nocite: '@*'
 knitr::opts_chunk$set(
 	echo = TRUE,
 	message = FALSE,
-	warning = FALSE,
-	fig.width=8, fig.height=8
-)
+	warning = FALSE)
 ```
 
 
@@ -72,7 +70,7 @@ Bi_2014_16<-read.csv("BleachingData/Counts_2014_2016.csv",
 # summary(Bi_2014_16)
 
 Binomial_all.data<-rbind(Bi_1983_97, Bi_2014_16)
-summary(Binomial_all.data)
+#summary(Binomial_all.data)
 
 #write.csv(Binomial.data, "BleachingData/Binomial_data.csv", row.names = F)
 ```
@@ -102,13 +100,7 @@ Binomial_all.data$Genus<-factor(Binomial_all.data$Genus,
 Binomial_all.data$Species[
   Binomial_all.data$Species=="Psammocora superficialis"]<-"Psammocora stellata"
   
-# Binomial.data$Species<-factor(Binomial.data$Species, levels = c(
-#   "Pocillopora elegans", "Pocillopora damicornis", "Pocillopora",
-#  "Millepora platyphylla", "Millepora intricata", "Porites panamensis",
-#  "Pavona chiriquiensis", "Pavona varians", "Pavona clavus",
-#   "Gardineroseris planulata",
-#  "Porites lobata", "Pavona gigantea",  "Psammocora stellata"))
-# 
+
 Binomial_all.data$Species<-factor(Binomial_all.data$Species, levels = c(
  "Millepora platyphylla", "Millepora intricata", 
  "Pavona chiriquiensis", "Pavona varians", "Pavona clavus", "Porites panamensis",
@@ -263,7 +255,7 @@ Max_DHW_plot<-grid.arrange(DHW_83, DHW_98, DHW_2016, ncol=3)
 
 ## Plots by Year
 
-### Facet species
+### Facet species - Figure 2
 
 ```{r}
 binomial_smooth <- function(...) {
@@ -300,7 +292,7 @@ Figure_Count + facet_wrap(Sensitivity~.)
 #ggsave(file="Outputs/Figure2d.svg", plot=Figure_Count, width=7, height=5.5)
 ```
 
-### Facet years 
+### Facet years -  Figure S2
 
 ```{r}
 Figure_Count_spp2<-ggplot(data=Binomial.data[
@@ -349,7 +341,7 @@ Figure_Count_spp2
 
 ## Plots by DHW
 
-### Spp
+### Spp - Figure S3
 
 ```{r}
 Summary_dhw_year<-Binomial.data %>%
@@ -696,7 +688,7 @@ Summary_plot_Non_uva
 
 # Plots by Year
 
-## Facet species
+## Facet species - Figure S4
 
 ```{r}
 binomial_smooth <- function(...) {
@@ -750,7 +742,6 @@ Figure_Count_spp2_o
 
 #ggsave(file="Outputs/Figure_2c.svg", plot=Figure_Count_spp2, width=8, height=6.5)
 
-# HEFCTFCT
 Figure_Count_spp2_o<-ggplot(data=Binomial_other) +
     theme(axis.title.x = element_blank(),
         legend.title = element_blank())+
