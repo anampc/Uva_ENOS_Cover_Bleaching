@@ -4,7 +4,7 @@
 
 ### Description:
 
-This repository compiles and analyzes coral cover, bleaching and mortality data from 1980-2018.
+This repository compiles and analyzes coral cover, bleaching and mortality data from 1980-2018 for the paper "Increased dominance of heat-tolerant symbionts creates resilient coral reefs in near-term ocean warming" doi: 10.1073/pnas.220238812
 
 </br>
 
